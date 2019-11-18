@@ -1,3 +1,5 @@
+library easy_rich_text;
+
 import 'package:flutter/material.dart';
 
 class EasyRichText extends StatelessWidget {

@@ -1,8 +1,8 @@
 name: easy_rich_text
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
+author: Hans Huang <cuhkhyc@gmail.com>
+homepage: https://github.com/2000calories/flutter_easy_rich_text
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
