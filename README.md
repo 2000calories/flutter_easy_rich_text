@@ -18,7 +18,7 @@ This widget split string into multiple TextSpan by defining a <pattern,TextStyle
 
 dependencies:
 
-easy_rich_text: '^0.0.1'
+easy_rich_text: '^0.0.2'
 
 ```
 
