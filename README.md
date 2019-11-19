@@ -17,8 +17,7 @@ This widget split string into multiple TextSpan by defining a <pattern,TextStyle
 ```yaml
 
 dependencies:
-
-easy_rich_text: '^0.0.2'
+  easy_rich_text: '^0.1.0'
 
 ```
 
@@ -32,7 +31,7 @@ String str = "This is a EasyRichText example. I want blue font. I want bold font
 
 #### Simple example:
 
-  
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/simple.png)
 
 ```dart
 
@@ -51,6 +50,8 @@ EasyRichText(
 
 #### Default Style:
 
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/default%20style.png)
+
 ```dart
 
 EasyRichText(
@@ -67,7 +68,10 @@ EasyRichText(
 
   
 
-#### All RichText properties accessible:
+#### All RichText properties accessible: textAlign, maxLines, overflow, etc.
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/rich%20text%20overflow.png)
+
 
 ```dart
 

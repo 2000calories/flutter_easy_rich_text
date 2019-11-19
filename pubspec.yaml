@@ -1,6 +1,6 @@
 name: easy_rich_text
-description: The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word. This widget split string into multiple TextSpan by defining a <pattern,TextStyle> Map;
-version: 0.0.2
+description: The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word.
+version: 0.1.0
 author: Hans Huang <cuhkhyc@gmail.com>
 homepage: https://github.com/2000calories/flutter_easy_rich_text
 
