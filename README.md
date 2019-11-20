@@ -2,7 +2,7 @@
 
   
 
-The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word.
+The EasyRichText widget provides an easy way to use RichText when you want to use specific style for specific word.
 
 This widget split string into multiple TextSpan by defining a <pattern,TextStyle> Map;
 
