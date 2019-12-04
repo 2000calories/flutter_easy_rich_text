@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Extended Rich Text Demo'),
+      home: MyHomePage(title: 'EasyRichText Demo'),
     );
   }
 }
@@ -27,7 +27,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String str =
-      "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. I want whole sentence bold.";
+      "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
+  String str2 =
+      "This is a EasyRichText example. I want blue font here. I want no blue font here";
+  String str3 =
+      "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +48,16 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               EasyRichText(
                 text: str,
-                patternMap: {
-                  ' bold ': TextStyle(fontWeight: FontWeight.bold),
-                  'I want whole sentence bold.':
-                      TextStyle(fontWeight: FontWeight.bold),
-                  ' blue ':
-                      TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)
-                },
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: 'bold',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               Container(
                 height: 80,
@@ -58,33 +65,63 @@ class _MyHomePageState extends State<MyHomePage> {
               EasyRichText(
                 text: str,
                 defaultStyle: TextStyle(color: Colors.grey),
-                patternMap: {
-                  ' bold ': TextStyle(fontWeight: FontWeight.bold),
-                  ' blue ': TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.blue),
-                  ' italic ': TextStyle(
-                    fontStyle: FontStyle.italic,
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    style: TextStyle(color: Colors.blue),
                   ),
-                },
+                  EasyRichTextPattern(
+                    targetString: 'bold',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               Container(
                 height: 80,
               ),
               EasyRichText(
-                text: str,
+                text: str2,
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    stringBeforeTarget: 'want',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+              Container(
+                height: 80,
+              ),
+              EasyRichText(
+                text: str3,
                 defaultStyle: TextStyle(
                   color: Colors.grey,
                 ),
-                patternMap: {
-                  ' bold ': TextStyle(fontWeight: FontWeight.bold),
-                  'I want whole sentence bold.':
-                      TextStyle(fontWeight: FontWeight.bold),
-                  ' blue ': TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.blue),
-                  ' italic ': TextStyle(
-                    fontStyle: FontStyle.italic,
+                patternList: [
+                  EasyRichTextPattern(
+                      targetString: 'blue',
+                      stringBeforeTarget: 'want',
+                      style: TextStyle(color: Colors.blue),
+                      superScript: true),
+                ],
+                textAlign: TextAlign.justify,
+      
+              ),
+              Container(
+                height: 80,
+              ),
+              EasyRichText(
+                text: str2,
+                defaultStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    stringBeforeTarget: 'want',
+                    style: TextStyle(color: Colors.blue),
                   ),
-                },
+                ],
                 textAlign: TextAlign.justify,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

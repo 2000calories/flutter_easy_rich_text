@@ -17,7 +17,7 @@ This widget split string into multiple TextSpan by defining a <pattern,TextStyle
 ```yaml
 
 dependencies:
-  easy_rich_text: '^0.1.0'
+  easy_rich_text: '^0.2.0'
 
 ```
 
