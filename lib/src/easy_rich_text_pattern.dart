@@ -1,7 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 class EasyRichTextPattern {
+  ///target string that you want to format
   final String targetString;
+
+  ///string before target string.
+  ///useful when you want to format text after specified words
   final String stringBeforeTarget;
   // final String stringAfterTarget;
   //Apply Word Boundaries in RegExp. The default value is true.
@@ -19,11 +23,12 @@ class EasyRichTextPattern {
   final bool matchRightWordBoundary;
 
 
-  //superscript has higher priority than subscript
+  ///superscript has higher priority than subscript
   final bool superScript;
 
   final bool subScript;
 
+  ///Style of target text
   final TextStyle style;
 
   EasyRichTextPattern(

@@ -68,10 +68,9 @@ class EasyRichText extends StatelessWidget {
   /// {@macro flutter.widgets.text.DefaultTextStyle.textWidthBasis}
   final TextWidthBasis textWidthBasis;
 
-  EasyRichText({
+  EasyRichText(this.text,{
     Key key,
     @required this.patternList,
-    @required this.text,
     this.defaultStyle,
     this.textAlign = TextAlign.start,
     this.textDirection,
@@ -100,7 +99,8 @@ class EasyRichText extends StatelessWidget {
       bool matchWordBoundaries = pattern.matchWordBoundaries;
 
       stringBeforeTarget == null
-          ? regExPatternList.add('(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
+          ? regExPatternList.add(
+              '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
           : regExPatternList.add(
               '(?<=\\b$stringBeforeTarget\\s${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget\\s)(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
     });
@@ -109,8 +109,8 @@ class EasyRichText extends StatelessWidget {
 
     ///split text by RegExp pattern
     var strList = text.split(exp);
-    print(strList);
-    print(patternStringAll);
+    ///print(strList);
+    ///print(patternStringAll);
 
     ///format text span by pattern type
     List<TextSpan> textSpanList = [];

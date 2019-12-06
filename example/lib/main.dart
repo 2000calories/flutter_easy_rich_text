@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               EasyRichText(
-                text: str,
+                str,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -57,13 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     targetString: 'bold',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  EasyRichTextPattern(
+                    targetString: 'italic',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
                 ],
               ),
               Container(
                 height: 80,
               ),
               EasyRichText(
-                text: str,
+                str,
                 defaultStyle: TextStyle(color: Colors.grey),
                 patternList: [
                   EasyRichTextPattern(
@@ -80,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               EasyRichText(
-                text: str2,
+                str2,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -93,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               EasyRichText(
-                text: str3,
+                str3,
                 defaultStyle: TextStyle(
                   color: Colors.grey,
                 ),
@@ -105,13 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       superScript: true),
                 ],
                 textAlign: TextAlign.justify,
-      
               ),
               Container(
                 height: 80,
               ),
               EasyRichText(
-                text: str2,
+                str2,
                 defaultStyle: TextStyle(
                   color: Colors.grey,
                 ),

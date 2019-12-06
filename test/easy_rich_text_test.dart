@@ -10,7 +10,7 @@ void main() {
         "This is a EasyRichText example. I want blue font. I want bold font. I want italic font.";
     await tester.pumpWidget(MaterialApp(
         home: EasyRichText(
-      text: str,
+      str,
       patternList: [
         EasyRichTextPattern(
             targetString: 'blue',
@@ -27,7 +27,7 @@ void main() {
     var time1 = new DateTime.now();
     for (var i = 0; i < 100000; i++) {
       EasyRichText(
-        text: str,
+        str,
         patternList: [
           EasyRichTextPattern(
               targetString: 'bold',
