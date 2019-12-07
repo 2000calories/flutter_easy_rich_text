@@ -20,7 +20,7 @@ void main() {
     )));
   });
 
-  test('compare EasyRichText with Text', () {
+  test('compare EasyRichText with RichText', () {
     String str =
         "This is a EasyRichText example. I want blue font. I want bold font. I want italic font.";
 

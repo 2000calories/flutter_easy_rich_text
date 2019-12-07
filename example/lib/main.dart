@@ -26,14 +26,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String str =
-      "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
-  String str2 =
-      "This is a EasyRichText example. I want blue font here. I want no blue font here";
-  String str3 =
-      "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
   @override
   Widget build(BuildContext context) {
+    String str1 =
+        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
+    String str2 =
+        "This is a EasyRichText example with default grey font. I want blue font here.";
+    String str3 =
+        "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
+    String str4 = "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -47,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               EasyRichText(
-                str,
+                str1,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -67,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               EasyRichText(
-                str,
+                str2,
                 defaultStyle: TextStyle(color: Colors.grey),
                 patternList: [
                   EasyRichTextPattern(
@@ -84,23 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               EasyRichText(
-                str2,
-                patternList: [
-                  EasyRichTextPattern(
-                    targetString: 'blue',
-                    stringBeforeTarget: 'want',
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                ],
-              ),
-              Container(
-                height: 80,
-              ),
-              EasyRichText(
                 str3,
-                defaultStyle: TextStyle(
-                  color: Colors.grey,
-                ),
                 patternList: [
                   EasyRichTextPattern(
                       targetString: 'blue',
@@ -114,10 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               EasyRichText(
-                str2,
-                defaultStyle: TextStyle(
-                  color: Colors.grey,
-                ),
+                str4,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
