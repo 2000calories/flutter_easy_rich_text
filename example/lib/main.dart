@@ -34,8 +34,10 @@ class _MyHomePageState extends State<MyHomePage> {
         "This is a EasyRichText example with default grey font. I want blue font here.";
     String str3 =
         "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
-    String str4 = "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
-
+    String str4 =
+        "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
+    String str6 =
+        "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.";
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -46,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               EasyRichText(
                 str1,
@@ -65,9 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              Container(
-                height: 80,
-              ),
               EasyRichText(
                 str2,
                 defaultStyle: TextStyle(color: Colors.grey),
@@ -82,9 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              Container(
-                height: 80,
-              ),
               EasyRichText(
                 str3,
                 patternList: [
@@ -95,9 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       superScript: true),
                 ],
                 textAlign: TextAlign.justify,
-              ),
-              Container(
-                height: 80,
               ),
               EasyRichText(
                 str4,
@@ -111,6 +104,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.justify,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+              ),
+              EasyRichText(
+                str6,
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: 'I want whole sentence blue',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: 'I want whole sentence bold',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           ),

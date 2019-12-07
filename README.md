@@ -107,3 +107,34 @@ EasyRichText(
   overflow: TextOverflow.ellipsis,
 ),
 ```
+
+#### Known issues
+
+##### Conflict when one target string is included in another target string
+
+```dart
+String str6 = "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.";
+
+EasyRichText(
+  str6,
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'blue',
+      style: TextStyle(color: Colors.blue),
+    ),
+    EasyRichTextPattern(
+      targetString: 'I want whole sentence blue',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    EasyRichTextPattern(
+      targetString: 'I want whole sentence bold',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+  ],
+),
+```
+
+##### not all characters support superscript and subscript
+Characters do not support superscript: q z C F Q S X Y Z
+Only these characters support subscript: e h i j k l m n o p r s t u v x
+  
