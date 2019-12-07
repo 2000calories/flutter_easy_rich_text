@@ -1,6 +1,6 @@
 name: easy_rich_text
 description: The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word.
-version: 0.2.0
+version: 0.2.2
 author: Hans Huang <cuhkhyc@gmail.com>
 homepage: https://github.com/2000calories/flutter_easy_rich_text
 

@@ -1,6 +1,6 @@
-# extended_rich_text
+# easy_rich_text
 
-The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word pattern.
+The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word pattern. This widget would be useful when you want to apply RichText to text get from a query.
 
 This widget split string into multiple TextSpan by defining a List of EasyRichTextPattern();
 
@@ -12,7 +12,7 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.2.0'
+  easy_rich_text: '^0.2.2'
 ```
 
 
@@ -112,6 +112,8 @@ EasyRichText(
 
 ##### Conflict when one target string is included in another target string
 
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/known%20issue%201.png)
+
 ```dart
 String str6 = "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.";
 
@@ -135,6 +137,7 @@ EasyRichText(
 ```
 
 ##### not all characters support superscript and subscript
-Characters do not support superscript: q z C F Q S X Y Z
-Only these characters support subscript: e h i j k l m n o p r s t u v x
+Characters do not support superscript: q z C F Q S X Y Z.
+
+Only these characters support subscript: e h i j k l m n o p r s t u v x.
   
