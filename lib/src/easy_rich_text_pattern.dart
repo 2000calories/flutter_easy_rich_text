@@ -22,7 +22,6 @@ class EasyRichTextPattern {
   ////when all values are set to true. matchRightWordBoundary have higher priority than matchWordBoundaries but lower priority than matchLeftWordBoundary.
   final bool matchRightWordBoundary;
 
-
   ///superscript has higher priority than subscript
   final bool superScript;
 

@@ -1,6 +1,6 @@
 # easy_rich_text
 
-The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word pattern. This widget would be useful when you want to apply RichText to text get from a query.
+The EasyRichText widget provides a easy way to use RichText when you want to use specific style for specific word pattern. This widget would be useful when you want to apply RichText to text get from a query. For example, highlight a company name or a product trademark.
 
 This widget split string into multiple TextSpan by defining a List of EasyRichTextPattern();
 
@@ -12,10 +12,8 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.2.2'
+  easy_rich_text: '^0.2.3'
 ```
-
-
 
 #### Simple example:
 
@@ -108,6 +106,46 @@ EasyRichText(
 ),
 ```
 
+### Case Sensitivity (default true)
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/case%20sensitivity.png)
+
+```dart
+String str7 = "Case-Insensitive String Matching. I want both Blue and blue.";
+
+EasyRichText(
+  str7,
+  caseSensitive: false,
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'blue',
+      style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
+###  Trademark
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/trademark.png)
+
+```dart
+String str = "ProductTM is a superscript trademark symbol. This TM is not a trademark.";
+
+EasyRichText(
+  str,
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'TM',
+      superScript: true,
+      stringBeforeTarget: 'Product',
+      matchWordBoundaries: false,
+      style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
 #### Known issues
 
 ##### Conflict when one target string is included in another target string
@@ -134,10 +172,10 @@ EasyRichText(
     ),
   ],
 ),
-```
+````
 
 ##### not all characters support superscript and subscript
+
 Characters do not support superscript: q z C F Q S X Y Z.
 
 Only these characters support subscript: e h i j k l m n o p r s t u v x.
-  

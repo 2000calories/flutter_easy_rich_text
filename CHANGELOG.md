@@ -13,3 +13,6 @@
 
 ## [0.2.2] - 2019-12-07
 * Update readme
+
+## [0.2.3] - 2020-06-28
+* Add case sensitivity option

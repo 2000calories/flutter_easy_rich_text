@@ -29,19 +29,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     String str1 =
-        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
+        "ProductTM is a superscript trademark symbol. This TM is not a trademark.";
     String str2 =
-        "This is a EasyRichText example with default grey font. I want blue font here.";
+        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
     String str3 =
-        "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
+        "This is a EasyRichText example with default grey font. I want blue font here.";
     String str4 =
+        "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
+    String str5 =
         "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
     String str6 =
         "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.";
+    String str7 =
+        "Case-Insensitive String Matching. I want both Blue and blue.";
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Padding(
@@ -49,9 +51,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               EasyRichText(
                 str1,
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'TM',
+                    superScript: true,
+                    stringBeforeTarget: 'Product',
+                    matchWordBoundaries: false,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+              EasyRichText(
+                str2,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -68,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               EasyRichText(
-                str2,
+                str3,
                 defaultStyle: TextStyle(color: Colors.grey),
                 patternList: [
                   EasyRichTextPattern(
@@ -82,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               EasyRichText(
-                str3,
+                str4,
                 patternList: [
                   EasyRichTextPattern(
                       targetString: 'blue',
@@ -93,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.justify,
               ),
               EasyRichText(
-                str4,
+                str5,
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -105,6 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
+
+              //case insensitivity
+              EasyRichText(
+                str7,
+                caseSensitive: false,
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'Blue',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+
+              //know issue
               EasyRichText(
                 str6,
                 patternList: [

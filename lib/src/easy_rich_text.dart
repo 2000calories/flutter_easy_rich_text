@@ -68,7 +68,10 @@ class EasyRichText extends StatelessWidget {
   /// {@macro flutter.widgets.text.DefaultTextStyle.textWidthBasis}
   final TextWidthBasis textWidthBasis;
 
-  EasyRichText(this.text,{
+  final bool caseSensitive;
+
+  EasyRichText(
+    this.text, {
     Key key,
     @required this.patternList,
     this.defaultStyle,
@@ -81,6 +84,7 @@ class EasyRichText extends StatelessWidget {
     this.locale,
     this.strutStyle,
     this.textWidthBasis = TextWidthBasis.parent,
+    this.caseSensitive = true,
   });
 
   @override
@@ -98,24 +102,38 @@ class EasyRichText extends StatelessWidget {
       bool matchRightWordBoundary = pattern.matchRightWordBoundary;
       bool matchWordBoundaries = pattern.matchWordBoundaries;
 
+      //\\b: whole words only
       stringBeforeTarget == null
           ? regExPatternList.add(
               '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
           : regExPatternList.add(
-              '(?<=\\b$stringBeforeTarget\\s${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget\\s)(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
+              '(?<=\\b$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
     });
+
     String patternStringAll = regExPatternList.join('|');
-    RegExp exp = new RegExp('($patternStringAll)');
+
+    RegExp exp = new RegExp('($patternStringAll)',
+        caseSensitive: caseSensitive, unicode: true);
 
     ///split text by RegExp pattern
     var strList = text.split(exp);
-    ///print(strList);
-    ///print(patternStringAll);
+
+    //print(strList);
+    //print(patternStringAll);
 
     ///format text span by pattern type
     List<TextSpan> textSpanList = [];
     strList.forEach((str) {
-      int index = targetStringList.indexOf(str);
+      int index;
+
+      ///case insensitive search by toLowerCase
+      if (caseSensitive == true) {
+        index = targetStringList.indexOf(str);
+      } else {
+        targetStringList = targetStringList.map((string)=>string.toLowerCase()).toList();
+        index = targetStringList.indexOf(str.toLowerCase());
+      }
+
       if (index > -1) {
         if (patternList[index].superScript) {
           //change the target string to superscript
