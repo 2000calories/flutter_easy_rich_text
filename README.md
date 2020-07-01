@@ -12,7 +12,7 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.2.3'
+  easy_rich_text: '^0.2.4'
 ```
 
 #### Simple example:
@@ -66,21 +66,19 @@ EasyRichText(
 
 #### superscript and subscript.
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/superscript.png)
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/superscript_subscript.png)
 
 ```dart
-String str3 = "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
+String str3 = "This is a EasyRichText example. I want superscript font here. I want subscript here";
 
 EasyRichText(
-  str3,
+  str4,
   patternList: [
     EasyRichTextPattern(
-        targetString: 'blue',
-        stringBeforeTarget: 'want',
-        style: TextStyle(color: Colors.blue),
-        superScript: true),
+        targetString: 'superscript', superScript: true),
+    EasyRichTextPattern(
+        targetString: 'subscript', subScript: true),
   ],
-  textAlign: TextAlign.justify,
 ),
 ```
 
@@ -172,10 +170,4 @@ EasyRichText(
     ),
   ],
 ),
-````
-
-##### not all characters support superscript and subscript
-
-Characters do not support superscript: q z C F Q S X Y Z.
-
-Only these characters support subscript: e h i j k l m n o p r s t u v x.
+```

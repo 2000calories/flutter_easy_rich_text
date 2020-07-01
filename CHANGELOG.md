@@ -16,3 +16,6 @@
 
 ## [0.2.3] - 2020-06-28
 * Add case sensitivity option
+
+## [0.2.4] - 2020-07-01
+* superscript and subscript using Transform.translate

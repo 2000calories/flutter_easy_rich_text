@@ -31,11 +31,11 @@ class _MyHomePageState extends State<MyHomePage> {
     String str1 =
         "ProductTM is a superscript trademark symbol. This TM is not a trademark.";
     String str2 =
-        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font. ";
+        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font.";
     String str3 =
         "This is a EasyRichText example with default grey font. I want blue font here.";
     String str4 =
-        "This is a EasyRichText example. I want blue superscript font here. I want no blue font here";
+        "This is a EasyRichText example. I want superscript font here. I want subscript here";
     String str5 =
         "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
     String str6 =
@@ -100,12 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 str4,
                 patternList: [
                   EasyRichTextPattern(
-                      targetString: 'blue',
-                      stringBeforeTarget: 'want',
-                      style: TextStyle(color: Colors.blue),
-                      superScript: true),
+                      targetString: 'superscript', superScript: true),
+                  EasyRichTextPattern(
+                      targetString: 'subscript', subScript: true),
                 ],
-                textAlign: TextAlign.justify,
               ),
               EasyRichText(
                 str5,

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'unicode_super_sub_script.dart';
+import 'package:flutter/widgets.dart';
 import 'easy_rich_text_pattern.dart';
 
 class EasyRichText extends StatelessWidget {
@@ -122,7 +121,7 @@ class EasyRichText extends StatelessWidget {
     //print(patternStringAll);
 
     ///format text span by pattern type
-    List<TextSpan> textSpanList = [];
+    List<InlineSpan> textSpanList = [];
     strList.forEach((str) {
       int index;
 
@@ -130,28 +129,52 @@ class EasyRichText extends StatelessWidget {
       if (caseSensitive == true) {
         index = targetStringList.indexOf(str);
       } else {
-        targetStringList = targetStringList.map((string)=>string.toLowerCase()).toList();
+        targetStringList =
+            targetStringList.map((string) => string.toLowerCase()).toList();
         index = targetStringList.indexOf(str.toLowerCase());
       }
 
+      ///If str is targetString
       if (index > -1) {
         if (patternList[index].superScript) {
           //change the target string to superscript
-          str = str.runes
-              .map((int rune) => superscriptMap[String.fromCharCode(rune)])
-              .join();
+          textSpanList.add(
+            WidgetSpan(
+              child: Transform.translate(
+                offset: const Offset(0, -5),
+                child: Text(
+                  str,
+                  textScaleFactor: 0.7,
+                  style: patternList[index].style == null
+                      ? DefaultTextStyle.of(context).style
+                      : patternList[index].style,
+                ),
+              ),
+            ),
+          );
         } else if (patternList[index].subScript) {
           //change the target string to subscript
-          str = str.runes
-              .map((int rune) => subscriptMap[String.fromCharCode(rune)])
-              .join();
+          textSpanList.add(
+            WidgetSpan(
+              child: Transform.translate(
+                offset: const Offset(0, 1),
+                child: Text(
+                  str,
+                  textScaleFactor: 0.7,
+                  style: patternList[index].style == null
+                      ? DefaultTextStyle.of(context).style
+                      : patternList[index].style,
+                ),
+              ),
+            ),
+          );
+        } else {
+          textSpanList.add(TextSpan(
+              text: str,
+              style: patternList[index].style == null
+                  ? DefaultTextStyle.of(context).style
+                  : patternList[index].style));
         }
-
-        textSpanList.add(TextSpan(
-            text: str,
-            style: patternList[index].style == null
-                ? DefaultTextStyle.of(context).style
-                : patternList[index].style));
       } else {
         textSpanList.add(TextSpan(text: str));
       }
