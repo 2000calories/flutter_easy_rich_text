@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'easy_rich_text_pattern.dart';
 
@@ -67,12 +68,17 @@ class EasyRichText extends StatelessWidget {
   /// {@macro flutter.widgets.text.DefaultTextStyle.textWidthBasis}
   final TextWidthBasis textWidthBasis;
 
+  ///case sensitive match
+  ///default true
   final bool caseSensitive;
+
+  ///selectable text, default false
+  final bool selectable;
 
   EasyRichText(
     this.text, {
     Key key,
-    @required this.patternList,
+    this.patternList,
     this.defaultStyle,
     this.textAlign = TextAlign.start,
     this.textDirection,
@@ -84,6 +90,7 @@ class EasyRichText extends StatelessWidget {
     this.strutStyle,
     this.textWidthBasis = TextWidthBasis.parent,
     this.caseSensitive = true,
+    this.selectable = false,
   });
 
   @override
@@ -91,23 +98,25 @@ class EasyRichText extends StatelessWidget {
     ///Regex pattern
     List<String> regExPatternList = [];
     List<String> targetStringList = new List<String>();
-    patternList.forEach((pattern) {
-      String targetString = pattern.targetString;
-      targetStringList.add(targetString);
-      String stringBeforeTarget = pattern.stringBeforeTarget;
-      //String stringAfterTarget = pattern.stringAfterTarget;
+    if (patternList != null) {
+      patternList.forEach((pattern) {
+        String targetString = pattern.targetString;
+        targetStringList.add(targetString);
+        String stringBeforeTarget = pattern.stringBeforeTarget;
+        //String stringAfterTarget = pattern.stringAfterTarget;
 
-      bool matchLeftWordBoundary = pattern.matchLeftWordBoundary;
-      bool matchRightWordBoundary = pattern.matchRightWordBoundary;
-      bool matchWordBoundaries = pattern.matchWordBoundaries;
+        bool matchLeftWordBoundary = pattern.matchLeftWordBoundary;
+        bool matchRightWordBoundary = pattern.matchRightWordBoundary;
+        bool matchWordBoundaries = pattern.matchWordBoundaries;
 
-      //\\b: whole words only
-      stringBeforeTarget == null
-          ? regExPatternList.add(
-              '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
-          : regExPatternList.add(
-              '(?<=\\b$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
-    });
+        //\\b: whole words only
+        stringBeforeTarget == null
+            ? regExPatternList.add(
+                '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
+            : regExPatternList.add(
+                '(?<=\\b$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
+      });
+    }
 
     String patternStringAll = regExPatternList.join('|');
 
@@ -117,26 +126,34 @@ class EasyRichText extends StatelessWidget {
     ///split text by RegExp pattern
     var strList = text.split(exp);
 
-    //print(strList);
-    //print(patternStringAll);
+    print(strList);
+    print(patternStringAll);
 
     ///format text span by pattern type
     List<InlineSpan> textSpanList = [];
     strList.forEach((str) {
-      int index;
+      int targetIndex = -1;
+
+      targetStringList.asMap().forEach((index, targetString) {
+        RegExp targetStringExp = new RegExp('^$targetString\\b',
+            caseSensitive: caseSensitive, unicode: true);
+        if (targetStringExp.hasMatch(str)) {
+          targetIndex = index;
+        }
+      });
 
       ///case insensitive search by toLowerCase
-      if (caseSensitive == true) {
-        index = targetStringList.indexOf(str);
-      } else {
-        targetStringList =
-            targetStringList.map((string) => string.toLowerCase()).toList();
-        index = targetStringList.indexOf(str.toLowerCase());
-      }
+      // if (caseSensitive == true) {
+      //   index = targetStringList.indexOf(str);
+      // } else {
+      //   targetStringList =
+      //       targetStringList.map((string) => string.toLowerCase()).toList();
+      //   index = targetStringList.indexOf(str.toLowerCase());
+      // }
 
       ///If str is targetString
-      if (index > -1) {
-        if (patternList[index].superScript) {
+      if (targetIndex > -1) {
+        if (patternList[targetIndex].superScript && !selectable) {
           //change the target string to superscript
           textSpanList.add(
             WidgetSpan(
@@ -145,14 +162,14 @@ class EasyRichText extends StatelessWidget {
                 child: Text(
                   str,
                   textScaleFactor: 0.7,
-                  style: patternList[index].style == null
+                  style: patternList[targetIndex].style == null
                       ? DefaultTextStyle.of(context).style
-                      : patternList[index].style,
+                      : patternList[targetIndex].style,
                 ),
               ),
             ),
           );
-        } else if (patternList[index].subScript) {
+        } else if (patternList[targetIndex].subScript && !selectable) {
           //change the target string to subscript
           textSpanList.add(
             WidgetSpan(
@@ -161,9 +178,9 @@ class EasyRichText extends StatelessWidget {
                 child: Text(
                   str,
                   textScaleFactor: 0.7,
-                  style: patternList[index].style == null
+                  style: patternList[targetIndex].style == null
                       ? DefaultTextStyle.of(context).style
-                      : patternList[index].style,
+                      : patternList[targetIndex].style,
                 ),
               ),
             ),
@@ -171,30 +188,46 @@ class EasyRichText extends StatelessWidget {
         } else {
           textSpanList.add(TextSpan(
               text: str,
-              style: patternList[index].style == null
+              style: patternList[targetIndex].style == null
                   ? DefaultTextStyle.of(context).style
-                  : patternList[index].style));
+                  : patternList[targetIndex].style));
         }
       } else {
         textSpanList.add(TextSpan(text: str));
       }
     });
 
-    return RichText(
-      text: TextSpan(
-          style: defaultStyle == null
-              ? DefaultTextStyle.of(context).style
-              : defaultStyle,
-          children: textSpanList),
-      locale: locale,
-      maxLines: maxLines,
-      overflow: overflow,
-      softWrap: softWrap,
-      strutStyle: strutStyle,
-      textAlign: textAlign,
-      textDirection: textDirection,
-      textScaleFactor: textScaleFactor,
-      textWidthBasis: textWidthBasis,
-    );
+    if (selectable) {
+      return SelectableText.rich(
+        TextSpan(
+            style: defaultStyle == null
+                ? DefaultTextStyle.of(context).style
+                : defaultStyle,
+            children: textSpanList),
+        maxLines: maxLines,
+        strutStyle: strutStyle,
+        textAlign: textAlign,
+        textDirection: textDirection,
+        textScaleFactor: textScaleFactor,
+        textWidthBasis: textWidthBasis,
+      );
+    } else {
+      return RichText(
+        text: TextSpan(
+            style: defaultStyle == null
+                ? DefaultTextStyle.of(context).style
+                : defaultStyle,
+            children: textSpanList),
+        locale: locale,
+        maxLines: maxLines,
+        overflow: overflow,
+        softWrap: softWrap,
+        strutStyle: strutStyle,
+        textAlign: textAlign,
+        textDirection: textDirection,
+        textScaleFactor: textScaleFactor,
+        textWidthBasis: textWidthBasis,
+      );
+    }
   }
 }

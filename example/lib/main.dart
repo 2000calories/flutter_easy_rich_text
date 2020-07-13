@@ -28,20 +28,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    String str1 =
-        "ProductTM is a superscript trademark symbol. This TM is not a trademark.";
-    String str2 =
-        "This is a EasyRichText example. I want blue font. I want bold font. I want italic font.";
-    String str3 =
-        "This is a EasyRichText example with default grey font. I want blue font here.";
-    String str4 =
-        "This is a EasyRichText example. I want superscript font here. I want subscript here";
-    String str5 =
-        "This is a EasyRichText example. I want blue font here. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1";
-    String str6 =
-        "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.";
-    String str7 =
-        "Case-Insensitive String Matching. I want both Blue and blue.";
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -51,10 +37,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              //trademark example
               EasyRichText(
-                str1,
+                "ProductTM is a superscript trademark symbol. This TM is not a trademark.",
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'TM',
@@ -65,8 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              //simple example
               EasyRichText(
-                str2,
+                "I want blue font. I want bold font. I want italic font.",
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -82,8 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              //default style
               EasyRichText(
-                str3,
+                "This is a EasyRichText example with default grey font. I want blue font here.",
                 defaultStyle: TextStyle(color: Colors.grey),
                 patternList: [
                   EasyRichTextPattern(
@@ -96,8 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              //superscript and subscript
               EasyRichText(
-                str4,
+                "I want superscript font here. I want subscript here",
                 patternList: [
                   EasyRichTextPattern(
                       targetString: 'superscript', superScript: true),
@@ -105,8 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       targetString: 'subscript', subScript: true),
                 ],
               ),
+              //conditional match
               EasyRichText(
-                str5,
+                "I want blue font here. I want not blue font here.",
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
@@ -114,14 +105,29 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: Colors.blue),
                   ),
                 ],
+              ),
+              //All RichText properties accessible
+              EasyRichText(
+                "TextOverflow.ellipsis, TextAlign.justify, maxLines: 1. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1.",
                 textAlign: TextAlign.justify,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
 
+              //regular expression
+              EasyRichText(
+                "Regular Expression. I want blue bluea blue1 but not blueA",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'bl[a-z0-9]*',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+
               //case insensitivity
               EasyRichText(
-                str7,
+                "Case-Insensitive String Matching. I want both Blue and blue.",
                 caseSensitive: false,
                 patternList: [
                   EasyRichTextPattern(
@@ -131,17 +137,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
 
+              //selectable.
+              EasyRichText(
+                "This paragraph is selectable...",
+                selectable: true,
+              ),
+
               //know issue
               EasyRichText(
-                str6,
+                "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
                 patternList: [
-                  EasyRichTextPattern(
-                    targetString: 'blue',
-                    style: TextStyle(color: Colors.blue),
-                  ),
                   EasyRichTextPattern(
                     targetString: 'I want whole sentence blue',
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    style: TextStyle(color: Colors.blue),
                   ),
                   EasyRichTextPattern(
                     targetString: 'I want whole sentence bold',
