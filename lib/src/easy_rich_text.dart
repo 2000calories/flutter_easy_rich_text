@@ -126,8 +126,8 @@ class EasyRichText extends StatelessWidget {
     ///split text by RegExp pattern
     var strList = text.split(exp);
 
-    print(strList);
-    print(patternStringAll);
+    // print(strList);
+    // print(patternStringAll);
 
     ///format text span by pattern type
     List<InlineSpan> textSpanList = [];
@@ -141,15 +141,6 @@ class EasyRichText extends StatelessWidget {
           targetIndex = index;
         }
       });
-
-      ///case insensitive search by toLowerCase
-      // if (caseSensitive == true) {
-      //   index = targetStringList.indexOf(str);
-      // } else {
-      //   targetStringList =
-      //       targetStringList.map((string) => string.toLowerCase()).toList();
-      //   index = targetStringList.indexOf(str.toLowerCase());
-      // }
 
       ///If str is targetString
       if (targetIndex > -1) {

@@ -22,3 +22,6 @@
 
 ## [0.3.0] - 2020-07-12
 * Selectable text and regular expression support
+
+## [0.3.1] - 2020-07-16
+* Format document

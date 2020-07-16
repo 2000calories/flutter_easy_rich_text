@@ -12,7 +12,7 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.3.0'
+  easy_rich_text: '^0.3.1'
 ```
 
 ### Examples:
