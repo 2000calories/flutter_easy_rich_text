@@ -25,3 +25,6 @@
 
 ## [0.3.1] - 2020-07-16
 * Format document
+
+## [0.3.2] - 2020-07-17
+* Support Chinese

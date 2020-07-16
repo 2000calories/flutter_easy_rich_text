@@ -12,18 +12,18 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.3.1'
+  easy_rich_text: '^0.3.2'
 ```
 
 ### Examples:
 
-[Simple Example](#simple-example) | 
-[Trademark Example](#trademark-example) | 
-[Default Style](#default-style) | 
-[Superscript and Subscript](#superscript-and-subscript) | 
-[Case Sensitivity](#case-sensitivity) | 
-[Selectable Text](#selectable-text) | 
-[Regular Expression](#regular-expression) | 
+[Simple Example](#simple-example) |
+[Trademark Example](#trademark-example) |
+[Default Style](#default-style) |
+[Superscript and Subscript](#superscript-and-subscript) |
+[Case Sensitivity](#case-sensitivity) |
+[Selectable Text](#selectable-text) |
+[Regular Expression](#regular-expression) |
 [All RichText Properties](#all-richtext-properties)
 
 #### Simple Example:
@@ -189,3 +189,5 @@ EasyRichText(
   ],
 ),
 ```
+
+#### If you find EasyRichText makes RichText easy, I would appreciate it if you can give me a star on [Github](https://github.com/2000calories/flutter_easy_rich_text) and a like on [pub.dev](https://pub.dev/packages/easy_rich_text)
