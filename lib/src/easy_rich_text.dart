@@ -109,12 +109,25 @@ class EasyRichText extends StatelessWidget {
         bool matchRightWordBoundary = pattern.matchRightWordBoundary;
         bool matchWordBoundaries = pattern.matchWordBoundaries;
 
+        String wordBoundaryStringBeforeTarget = "\\b";
+
+        bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
+                caseSensitive: caseSensitive, unicode: true)
+            .hasMatch(targetString);
+        /// if target string is Han character
+        /// set matchWordBoundaries = false
+        /// set wordBoundaryStringBeforeTarget = ""
+        if (isHan) {
+          matchWordBoundaries = false;
+          wordBoundaryStringBeforeTarget = "";
+        }
+
         //\\b: whole words only
         stringBeforeTarget == null
             ? regExPatternList.add(
                 '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
             : regExPatternList.add(
-                '(?<=\\b$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=\\b$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
+                '(?<=$wordBoundaryStringBeforeTarget$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=$wordBoundaryStringBeforeTarget$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
       });
     }
 
@@ -135,8 +148,14 @@ class EasyRichText extends StatelessWidget {
       int targetIndex = -1;
 
       targetStringList.asMap().forEach((index, targetString) {
-        RegExp targetStringExp = new RegExp('^$targetString\\b',
-            caseSensitive: caseSensitive, unicode: true);
+        bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
+                caseSensitive: caseSensitive, unicode: true)
+            .hasMatch(targetString);
+        //\$, match end
+        RegExp targetStringExp = new RegExp(
+            '^$targetString${isHan ? "\$" : "\\b\$"}',
+            caseSensitive: caseSensitive,
+            unicode: true);
         if (targetStringExp.hasMatch(str)) {
           targetIndex = index;
         }
