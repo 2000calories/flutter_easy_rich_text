@@ -148,12 +148,9 @@ class EasyRichText extends StatelessWidget {
       int targetIndex = -1;
 
       targetStringList.asMap().forEach((index, targetString) {
-        bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
-                caseSensitive: caseSensitive, unicode: true)
-            .hasMatch(targetString);
         //\$, match end
         RegExp targetStringExp = new RegExp(
-            '^$targetString${isHan ? "\$" : "\\b\$"}',
+            '^$targetString\$',
             caseSensitive: caseSensitive,
             unicode: true);
         if (targetStringExp.hasMatch(str)) {
