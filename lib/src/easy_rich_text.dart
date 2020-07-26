@@ -115,10 +115,15 @@ class EasyRichText extends StatelessWidget {
                 caseSensitive: caseSensitive, unicode: true)
             .hasMatch(targetString);
 
-        /// if target string is Han character
+        //\p{Arabic}
+        bool isArabic = RegExp(r"[\u0621-\u064A]+",
+                caseSensitive: caseSensitive, unicode: true)
+            .hasMatch(targetString);
+
+        /// if target string is Han or Arabic character
         /// set matchWordBoundaries = false
         /// set wordBoundaryStringBeforeTarget = ""
-        if (isHan) {
+        if (isHan || isArabic) {
           matchWordBoundaries = false;
           wordBoundaryStringBeforeTarget = "";
         }
