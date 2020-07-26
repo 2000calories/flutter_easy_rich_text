@@ -143,7 +143,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectable: true,
               ),
 
-              //know issue
+              //Arabic text
+              EasyRichText(
+                "الحياة أكثر من مجرد الحاضر",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'من مجرد',
+                    style: TextStyle(color: Colors.blue),
+                  )
+                ],
+                defaultStyle: TextStyle(color: Colors.red),
+              ),
+
+              //know issue 
               EasyRichText(
                 "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
                 patternList: [

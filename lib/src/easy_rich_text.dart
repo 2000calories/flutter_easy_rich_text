@@ -114,10 +114,16 @@ class EasyRichText extends StatelessWidget {
         bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
                 caseSensitive: caseSensitive, unicode: true)
             .hasMatch(targetString);
-        /// if target string is Han character
+
+        //\p{Arabic}
+        bool isArabic = RegExp(r"[\u0621-\u064A]+",
+                caseSensitive: caseSensitive, unicode: true)
+            .hasMatch(targetString);
+
+        /// if target string is Han or Arabic character
         /// set matchWordBoundaries = false
         /// set wordBoundaryStringBeforeTarget = ""
-        if (isHan) {
+        if (isHan || isArabic) {
           matchWordBoundaries = false;
           wordBoundaryStringBeforeTarget = "";
         }
@@ -149,10 +155,8 @@ class EasyRichText extends StatelessWidget {
 
       targetStringList.asMap().forEach((index, targetString) {
         //\$, match end
-        RegExp targetStringExp = new RegExp(
-            '^$targetString\$',
-            caseSensitive: caseSensitive,
-            unicode: true);
+        RegExp targetStringExp = new RegExp('^$targetString\$',
+            caseSensitive: caseSensitive, unicode: true);
         if (targetStringExp.hasMatch(str)) {
           targetIndex = index;
         }
