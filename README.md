@@ -1,10 +1,12 @@
 # easy_rich_text
 
-The EasyRichText widget provides an easy way to use RichText when you want to use specific style for specific word pattern. This widget would be useful when you want to apply RichText to text get from a query. For example, highlight a company name or a product trademark.
+The EasyRichText widget makes the RichText widget easy. You do not have to split the string manually.
 
-This widget split string into multiple TextSpan by defining a List of EasyRichTextPattern();
+This widget use regular expression to split the string based on the patterns defined in the list of EasyRichTextPattern.
 
 The EasyRichTextPattern is a class defines the text pattern you want to format.
+
+This widget would be useful when you want to apply RichText to text got from a query.
 
 ## Getting Started
 
@@ -12,7 +14,7 @@ The EasyRichTextPattern is a class defines the text pattern you want to format.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.3.2'
+  easy_rich_text: '^0.3.3'
 ```
 
 ### Examples:
