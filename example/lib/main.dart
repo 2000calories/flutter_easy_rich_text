@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 
@@ -54,10 +55,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //simple example
               EasyRichText(
-                "I want blue font. I want bold font. I want italic font.",
+                "I want blue font. I want blue font. I want italic font.",
                 patternList: [
                   EasyRichTextPattern(
+                    targetString: 'italic',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                  EasyRichTextPattern(
                     targetString: 'blue',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: '[A-Z]+',
+                    matchWordBoundaries: false,
                     style: TextStyle(color: Colors.blue),
                   ),
                   EasyRichTextPattern(
@@ -97,11 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //conditional match
               EasyRichText(
-                "I want blue font here. I want not blue font here.",
+                "I want blue color here. I want no blue font here. I want blue invalid here.",
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'blue',
                     stringBeforeTarget: 'want',
+                    stringAfterTarget: "color",
                     style: TextStyle(color: Colors.blue),
                   ),
                 ],
@@ -143,19 +154,60 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectable: true,
               ),
 
-              //Arabic text
+              ///urls, will disable superscript and subscript
               EasyRichText(
-                "الحياة أكثر من مجرد الحاضر",
+                "Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
                 patternList: [
                   EasyRichTextPattern(
-                    targetString: 'من',
-                    style: TextStyle(color: Colors.blue),
-                  )
+                    targetString: 'https://pub.dev/packages/easy_rich_text',
+                    urlType: 'web',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: EasyRegexPattern.emailPattern,
+                    urlType: 'email',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: EasyRegexPattern.webPattern,
+                    urlType: 'web',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: EasyRegexPattern.telPattern,
+                    urlType: 'tel',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ],
-                defaultStyle: TextStyle(color: Colors.red),
               ),
 
-              //know issue 
+              ///GestureRecognizer, not working when superscript, subscript, or urlType is set.
+              ///TapGestureRecognizer, MultiTapGestureRecognizer, etc.
+              EasyRichText(
+                "Tap recognizer to print this sentence.",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'recognizer',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print("Tap recognizer to print this sentence.");
+                      },
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+
+              //know issue
               EasyRichText(
                 "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
                 patternList: [
@@ -172,6 +224,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
+              ),
+
+              //Chinese Character
+              EasyRichText(
+                "I want 世界你好 here. I want not 世界你好 font here.",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: '世界',
+                    stringBeforeTarget: 'want ',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+
+              //Arabic Character
+              EasyRichText(
+                "الحياة أكثر من مجرد الحاضر",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'من',
+                    style: TextStyle(color: Colors.blue),
+                  )
+                ],
+                defaultStyle: TextStyle(color: Colors.red),
               ),
             ],
           ),

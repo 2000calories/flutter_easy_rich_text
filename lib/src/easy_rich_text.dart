@@ -1,5 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'easy_rich_text_pattern.dart';
 
 class EasyRichText extends StatelessWidget {
@@ -93,119 +94,241 @@ class EasyRichText extends StatelessWidget {
     this.selectable = false,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    ///Regex pattern
-    List<String> regExPatternList = [];
-    List<String> targetStringList = new List<String>();
-    if (patternList != null) {
-      patternList.forEach((pattern) {
-        String targetString = pattern.targetString;
-        targetStringList.add(targetString);
-        String stringBeforeTarget = pattern.stringBeforeTarget;
-        //String stringAfterTarget = pattern.stringAfterTarget;
-
-        bool matchLeftWordBoundary = pattern.matchLeftWordBoundary;
-        bool matchRightWordBoundary = pattern.matchRightWordBoundary;
-        bool matchWordBoundaries = pattern.matchWordBoundaries;
-
-        String wordBoundaryStringBeforeTarget = "\\b";
-
-        bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
-                caseSensitive: caseSensitive, unicode: true)
-            .hasMatch(targetString);
-
-        //\p{Arabic}
-        bool isArabic = RegExp(r"[\u0621-\u064A]+",
-                caseSensitive: caseSensitive, unicode: true)
-            .hasMatch(targetString);
-
-        /// if target string is Han or Arabic character
-        /// set matchWordBoundaries = false
-        /// set wordBoundaryStringBeforeTarget = ""
-        if (isHan || isArabic) {
-          matchWordBoundaries = false;
-          wordBoundaryStringBeforeTarget = "";
-        }
-
-        //\\b: whole words only
-        stringBeforeTarget == null
-            ? regExPatternList.add(
-                '(?<=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?=${matchWordBoundaries || matchLeftWordBoundary ? '\\b' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})')
-            : regExPatternList.add(
-                '(?<=$wordBoundaryStringBeforeTarget$stringBeforeTarget${matchWordBoundaries || matchLeftWordBoundary ? '\\s' : ''}$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})|(?<=$wordBoundaryStringBeforeTarget$stringBeforeTarget${matchWordBoundaries ? '\\s' : ''})(?=$targetString${matchWordBoundaries || matchRightWordBoundary ? '\\b' : ''})');
-      });
+  _launchURL(String str) async {
+    String url = str;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
     }
+  }
 
-    String patternStringAll = regExPatternList.join('|');
+  TapGestureRecognizer tapGestureRecognizerForUrls(String str, String urlType) {
+    TapGestureRecognizer tapGestureRecognizer;
+    switch (urlType) {
+      case 'web':
+        if (str.substring(0, 4) != "http") {
+          str = "https://$str";
+        }
+        tapGestureRecognizer = TapGestureRecognizer()
+          ..onTap = () {
+            _launchURL(str);
+          };
+        break;
+      case 'email':
+        tapGestureRecognizer = TapGestureRecognizer()
+          ..onTap = () {
+            _launchURL("mailto:$str");
+          };
+        break;
+      case 'tel':
+        tapGestureRecognizer = TapGestureRecognizer()
+          ..onTap = () {
+            _launchURL("tel:$str");
+          };
+        break;
+      default:
+    }
+    return tapGestureRecognizer;
+  }
 
-    RegExp exp = new RegExp('($patternStringAll)',
-        caseSensitive: caseSensitive, unicode: true);
+  List<String> processStrList(
+      List<EasyRichTextPattern> patternList, String temText) {
+    List<String> strList = [];
+    List<List<int>> positions = [];
 
-    ///split text by RegExp pattern
-    var strList = text.split(exp);
+    patternList.asMap().forEach((index, pattern) {
+      String thisRegExPattern;
+      String targetString = pattern.targetString;
+      String stringBeforeTarget = pattern.stringBeforeTarget;
+      String stringAfterTarget = pattern.stringAfterTarget;
+
+      bool matchLeftWordBoundary = pattern.matchLeftWordBoundary;
+      bool matchRightWordBoundary = pattern.matchRightWordBoundary;
+      bool matchWordBoundaries = pattern.matchWordBoundaries;
+
+      String wordBoundaryStringBeforeTarget1 = "\\b";
+      String wordBoundaryStringBeforeTarget2 = "\\s";
+      String wordBoundaryStringAfterTarget1 = "\\s";
+      String wordBoundaryStringAfterTarget2 = "\\b";
+
+      String leftBoundary = "\\b";
+      String rightBoundary = "\\b";
+
+      ///if any of matchWordBoundaries or matchLeftWordBoundary is false
+      ///set leftBoundary = ""
+      if (!matchWordBoundaries || !matchLeftWordBoundary) {
+        leftBoundary = "";
+        wordBoundaryStringBeforeTarget1 = "";
+        wordBoundaryStringAfterTarget1 = "";
+      }
+
+      if (!matchWordBoundaries || !matchRightWordBoundary) {
+        rightBoundary = "";
+        wordBoundaryStringBeforeTarget2 = "";
+        wordBoundaryStringAfterTarget2 = "";
+      }
+
+      bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
+              caseSensitive: caseSensitive, unicode: true)
+          .hasMatch(targetString);
+
+      bool isArabic = RegExp(r"[\u0621-\u064A]+",
+              caseSensitive: caseSensitive, unicode: true)
+          .hasMatch(targetString);
+
+      /// if target string is Han or Arabic character
+      /// set matchWordBoundaries = false
+      /// set wordBoundaryStringBeforeTarget = ""
+      if (isHan || isArabic) {
+        matchWordBoundaries = false;
+        leftBoundary = "";
+        rightBoundary = "";
+        wordBoundaryStringBeforeTarget1 = "";
+        wordBoundaryStringBeforeTarget2 = "";
+        wordBoundaryStringAfterTarget1 = "";
+        wordBoundaryStringAfterTarget2 = "";
+      }
+
+      String stringBeforeTargetRegex = "";
+      if (stringBeforeTarget != "") {
+        stringBeforeTargetRegex =
+            "(?<=$wordBoundaryStringBeforeTarget1$stringBeforeTarget$wordBoundaryStringBeforeTarget2)";
+      }
+      String stringAfterTargetRegex = "";
+      if (stringAfterTarget != "") {
+        stringAfterTargetRegex =
+            "(?=$wordBoundaryStringAfterTarget1$stringAfterTarget$wordBoundaryStringAfterTarget2)";
+      }
+
+      //modify targetString by matchWordBoundaries and wordBoundaryStringBeforeTarget settings
+      thisRegExPattern =
+          '($stringBeforeTargetRegex$leftBoundary$targetString$rightBoundary$stringAfterTargetRegex)';
+      RegExp exp = new RegExp(thisRegExPattern,
+          caseSensitive: caseSensitive, unicode: true);
+      var allMatches = exp.allMatches(temText);
+      print(thisRegExPattern);
+
+      ///positions = [[7,11],[26,30],]
+      allMatches.forEach((match) {
+        positions.add([match.start, match.end]);
+      });
+    });
+    positions.sort((a, b) => a[0].compareTo(b[0]));
+    //remove invalid positions
+    List<List<int>> postionsToRemove = [];
+    for (var i = 1; i < positions.length; i++) {
+      if (positions[i][0] <= positions[i - 1][1]) {
+        postionsToRemove.add(positions[i]);
+      }
+    }
+    postionsToRemove.forEach((position) {
+      positions.remove(position);
+    });
+
+    //convert positions to 1d list
+    List<int> splitPositions = [0];
+    positions.forEach((position) {
+      splitPositions.add(position[0]);
+      splitPositions.add(position[1]);
+    });
+    splitPositions.add(temText.length);
+
+    splitPositions.asMap().forEach((index, splitPosition) {
+      if (index != 0) {
+        strList
+            .add(temText.substring(splitPositions[index - 1], splitPosition));
+      }
+    });
 
     // print(strList);
-    // print(patternStringAll);
+    return strList;
+  }
 
-    ///format text span by pattern type
+  @override
+  Widget build(BuildContext context) {
+    String temText = text;
+    List<String> strList = [];
+
+    if (patternList == null) {
+      strList = [temText];
+    } else {
+      strList = processStrList(patternList, temText);
+    }
+
     List<InlineSpan> textSpanList = [];
     strList.forEach((str) {
+      var inlineSpan;
       int targetIndex = -1;
 
-      targetStringList.asMap().forEach((index, targetString) {
-        //\$, match end
-        RegExp targetStringExp = new RegExp('^$targetString\$',
-            caseSensitive: caseSensitive, unicode: true);
-        if (targetStringExp.hasMatch(str)) {
-          targetIndex = index;
-        }
-      });
+      if (patternList != null) {
+        patternList.asMap().forEach((index, pattern) {
+          String targetString = pattern.targetString;
+          //\$, match end
+          RegExp targetStringExp = new RegExp('^$targetString\$',
+              caseSensitive: caseSensitive, unicode: true);
+          if (targetStringExp.hasMatch(str)) {
+            targetIndex = index;
+          }
+        });
+      }
 
       ///If str is targetString
       if (targetIndex > -1) {
-        if (patternList[targetIndex].superScript && !selectable) {
+        //if str is url
+        var urlType = patternList[targetIndex].urlType;
+        if (urlType != null) {
           //change the target string to superscript
-          textSpanList.add(
-            WidgetSpan(
-              child: Transform.translate(
-                offset: const Offset(0, -5),
-                child: Text(
-                  str,
-                  textScaleFactor: 0.7,
-                  style: patternList[targetIndex].style == null
-                      ? DefaultTextStyle.of(context).style
-                      : patternList[targetIndex].style,
-                ),
+          inlineSpan = TextSpan(
+            text: str,
+            recognizer: tapGestureRecognizerForUrls(str, urlType),
+            style: patternList[targetIndex].style == null
+                ? DefaultTextStyle.of(context).style
+                : patternList[targetIndex].style,
+          );
+        } else if (patternList[targetIndex].superScript && !selectable) {
+          //change the target string to superscript
+          inlineSpan = WidgetSpan(
+            child: Transform.translate(
+              offset: const Offset(0, -5),
+              child: Text(
+                str,
+                textScaleFactor: 0.7,
+                style: patternList[targetIndex].style == null
+                    ? DefaultTextStyle.of(context).style
+                    : patternList[targetIndex].style,
               ),
             ),
           );
         } else if (patternList[targetIndex].subScript && !selectable) {
           //change the target string to subscript
-          textSpanList.add(
-            WidgetSpan(
-              child: Transform.translate(
-                offset: const Offset(0, 1),
-                child: Text(
-                  str,
-                  textScaleFactor: 0.7,
-                  style: patternList[targetIndex].style == null
-                      ? DefaultTextStyle.of(context).style
-                      : patternList[targetIndex].style,
-                ),
+          inlineSpan = WidgetSpan(
+            child: Transform.translate(
+              offset: const Offset(0, 1),
+              child: Text(
+                str,
+                textScaleFactor: 0.7,
+                style: patternList[targetIndex].style == null
+                    ? DefaultTextStyle.of(context).style
+                    : patternList[targetIndex].style,
               ),
             ),
           );
         } else {
-          textSpanList.add(TextSpan(
-              text: str,
-              style: patternList[targetIndex].style == null
-                  ? DefaultTextStyle.of(context).style
-                  : patternList[targetIndex].style));
+          inlineSpan = TextSpan(
+            text: str,
+            recognizer: patternList[targetIndex].recognizer,
+            style: patternList[targetIndex].style == null
+                ? DefaultTextStyle.of(context).style
+                : patternList[targetIndex].style,
+          );
         }
       } else {
-        textSpanList.add(TextSpan(text: str));
+        inlineSpan = TextSpan(
+          text: str,
+        );
       }
+      textSpanList.add(inlineSpan);
     });
 
     if (selectable) {

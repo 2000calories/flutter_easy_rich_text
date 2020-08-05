@@ -5,6 +5,7 @@ The EasyRichText widget makes the RichText widget easy. You do not have to split
 This widget use regular expression to split the string based on the patterns defined in the list of EasyRichTextPattern.
 
 The EasyRichTextPattern is a class defines the text pattern you want to format.
+By default `matchWordBoundaries:true` is set to match the whole word. If you want to match substring in a word, set `matchWordBoundaries:false`
 
 This widget would be useful when you want to apply RichText to text got from a query.
 
@@ -14,7 +15,7 @@ This widget would be useful when you want to apply RichText to text got from a q
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.3.3'
+  easy_rich_text: '^0.4.0'
 ```
 
 ### Examples:
@@ -22,10 +23,13 @@ dependencies:
 [Simple Example](#simple-example) |
 [Trademark Example](#trademark-example) |
 [Default Style](#default-style) |
+[Conditional Match](#conditional-match) |
 [Superscript and Subscript](#superscript-and-subscript) |
 [Case Sensitivity](#case-sensitivity) |
 [Selectable Text](#selectable-text) |
 [Regular Expression](#regular-expression) |
+[Url Launcher](#url-launcher) |
+[GestureRecognizer](#gestureRecognizer) |
 [All RichText Properties](#all-richtext-properties)
 
 #### Simple Example:
@@ -92,6 +96,24 @@ EasyRichText(
 ),
 ```
 
+#### Conditional Match
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/conditional_match.png)
+
+```dart
+EasyRichText(
+  "I want blue color here. I want no blue font here. I want blue invalid here.",
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'blue',
+      stringBeforeTarget: 'want',
+      stringAfterTarget: "color",
+      style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
 #### Superscript and Subscript.
 
 ![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/superscript_subscript.png)
@@ -148,6 +170,72 @@ EasyRichText(
     EasyRichTextPattern(
       targetString: 'bl[a-z0-9]*',
       style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
+#### Url Launcher
+
+Integrated with url_launcher. Web url, email url, and telephone url are supported.
+Set urlType : 'web', 'email', or 'tel'.
+EasyRichText provides regular expression formula to match common urls.
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/urls.png)
+
+```dart
+EasyRichText(
+  "Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'https://pub.dev/packages/easy_rich_text',
+      urlType: 'web',
+      style: TextStyle(
+        decoration: TextDecoration.underline,
+      ),
+    ),
+    EasyRichTextPattern(
+      targetString: EasyRegexPattern.emailPattern,
+      urlType: 'email',
+      style: TextStyle(
+        decoration: TextDecoration.underline,
+      ),
+    ),
+    EasyRichTextPattern(
+      targetString: EasyRegexPattern.webPattern,
+      urlType: 'web',
+      style: TextStyle(
+        decoration: TextDecoration.underline,
+      ),
+    ),
+    EasyRichTextPattern(
+      targetString: EasyRegexPattern.telPattern,
+      urlType: 'tel',
+      style: TextStyle(
+        decoration: TextDecoration.underline,
+      ),
+    ),
+  ],
+),
+```
+
+#### GestureRecognizer
+
+```dart
+///GestureRecognizer, not working when superscript, subscript, or urlType is set.
+///TapGestureRecognizer, MultiTapGestureRecognizer, etc.
+EasyRichText(
+  "Tap recognizer to print this sentence.",
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'recognizer',
+      recognizer: TapGestureRecognizer()
+        ..onTap = () {
+          print("Tap recognizer to print this sentence.");
+        },
+      style: TextStyle(
+        decoration: TextDecoration.underline,
+      ),
     ),
   ],
 ),

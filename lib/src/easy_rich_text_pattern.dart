@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 class EasyRichTextPattern {
@@ -7,7 +8,11 @@ class EasyRichTextPattern {
   ///string before target string.
   ///useful when you want to format text after specified words
   final String stringBeforeTarget;
-  // final String stringAfterTarget;
+
+  ///string after target string.
+  ///useful when you want to format text before specified words
+  final String stringAfterTarget;
+
   //Apply Word Boundaries in RegExp. The default value is true.
   ///when all values are set to true. matchLeftWordBoundary and matchRightWordBoundary has higher priority than matchWordBoundaries.
   final bool matchWordBoundaries;
@@ -22,23 +27,34 @@ class EasyRichTextPattern {
   ////when all values are set to true. matchRightWordBoundary have higher priority than matchWordBoundaries but lower priority than matchLeftWordBoundary.
   final bool matchRightWordBoundary;
 
+  ///convert targetString to superScript
   ///superscript has higher priority than subscript
   final bool superScript;
 
+  ///convert targetString to subscript
   final bool subScript;
 
   ///Style of target text
   final TextStyle style;
 
-  EasyRichTextPattern(
-      {Key key,
-      @required this.targetString,
-      this.stringBeforeTarget,
-      //this.stringAfterTarget,
-      this.matchWordBoundaries = true,
-      this.matchLeftWordBoundary = false,
-      this.matchRightWordBoundary = false,
-      this.superScript = false,
-      this.subScript = false,
-      this.style});
+  ///apply url_launcher, support email, website, and telephone
+  final String urlType;
+
+  ///GestureRecognizer
+  final GestureRecognizer recognizer;
+
+  EasyRichTextPattern({
+    Key key,
+    @required this.targetString,
+    this.stringBeforeTarget="",
+    this.stringAfterTarget="",
+    this.matchWordBoundaries = true,
+    this.matchLeftWordBoundary = true,
+    this.matchRightWordBoundary = true,
+    this.superScript = false,
+    this.subScript = false,
+    this.style,
+    this.urlType,
+    this.recognizer,
+  });
 }

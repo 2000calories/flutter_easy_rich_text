@@ -37,7 +37,7 @@ void main() {
     }
 
     var time2 = new DateTime.now();
-    print(time2.difference(time1).inMicroseconds.toString());
+    print("EasyRichText: " + time2.difference(time1).inMicroseconds.toString());
 
     var time3 = new DateTime.now();
     for (var i = 0; i < 100000; i++) {
@@ -55,6 +55,6 @@ void main() {
       );
     }
     var time4 = new DateTime.now();
-    print(time4.difference(time3).inMicroseconds.toString());
+    print("RichText: " + time4.difference(time3).inMicroseconds.toString());
   });
 }
