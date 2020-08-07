@@ -207,7 +207,7 @@ class EasyRichText extends StatelessWidget {
       RegExp exp = new RegExp(thisRegExPattern,
           caseSensitive: caseSensitive, unicode: true);
       var allMatches = exp.allMatches(temText);
-      print(thisRegExPattern);
+      // print(thisRegExPattern);
 
       ///positions = [[7,11],[26,30],]
       allMatches.forEach((match) {

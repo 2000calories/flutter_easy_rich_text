@@ -212,12 +212,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
                 patternList: [
                   EasyRichTextPattern(
-                    targetString: 'I want whole sentence blue',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  EasyRichTextPattern(
                     targetString: 'blue',
                     style: TextStyle(color: Colors.blue),
+                  ),
+                  EasyRichTextPattern(
+                    targetString: 'I want whole sentence blue',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   EasyRichTextPattern(
                     targetString: 'I want whole sentence bold',

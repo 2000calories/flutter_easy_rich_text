@@ -49,3 +49,7 @@
 * Integrated with url_launcher
 * Support GestureRecognizer
 * Support stringAfterTarget
+
+## [0.4.1] - 2020-08-07
+
+* Format codes

@@ -15,7 +15,7 @@ This widget would be useful when you want to apply RichText to text got from a q
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.4.0'
+  easy_rich_text: '^0.4.1'
 ```
 
 ### Examples:

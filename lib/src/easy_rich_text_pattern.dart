@@ -46,8 +46,8 @@ class EasyRichTextPattern {
   EasyRichTextPattern({
     Key key,
     @required this.targetString,
-    this.stringBeforeTarget="",
-    this.stringAfterTarget="",
+    this.stringBeforeTarget = "",
+    this.stringAfterTarget = "",
     this.matchWordBoundaries = true,
     this.matchLeftWordBoundary = true,
     this.matchRightWordBoundary = true,
