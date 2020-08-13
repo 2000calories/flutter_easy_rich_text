@@ -1,13 +1,15 @@
 # easy_rich_text
 
+[![pub package](https://img.shields.io/pub/v/easy_rich_text.svg)](https://pub.dev/packages/easy_rich_text) [![GitHub license](https://img.shields.io/github/license/2000calories/flutter_easy_rich_text)](https://github.com/2000calories/flutter_easy_rich_text/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/2000calories/flutter_easy_rich_text)](https://github.com/2000calories/flutter_easy_rich_text/stargazers)
+
 The EasyRichText widget makes the RichText widget easy. You do not have to split the string manually.
 
-This widget use regular expression to split the string based on the patterns defined in the list of EasyRichTextPattern.
+This widget use regular expression to effectively split the string based on the patterns defined in the list of EasyRichTextPattern.
 
 The EasyRichTextPattern is a class defines the text pattern you want to format.
 By default `matchWordBoundaries:true` is set to match the whole word. If you want to match substring in a word, set `matchWordBoundaries:false`
 
-This widget would be useful when you want to apply RichText to text got from a query.
+GestureRecognizer and url_launcher are integrated.
 
 ## Getting Started
 
@@ -15,7 +17,7 @@ This widget would be useful when you want to apply RichText to text got from a q
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.4.1'
+  easy_rich_text: '^0.4.2'
 ```
 
 ### Examples:
