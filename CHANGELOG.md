@@ -57,3 +57,7 @@
 ## [0.4.2] - 2020-08-13
 
 * Update pattern
+
+## [0.4.3] - 2020-08-14
+
+* Special characters in targetString

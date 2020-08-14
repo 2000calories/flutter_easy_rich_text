@@ -66,11 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: Colors.blue),
                   ),
                   EasyRichTextPattern(
-                    targetString: '[A-Z]+',
-                    matchWordBoundaries: false,
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  EasyRichTextPattern(
                     targetString: 'bold',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -203,6 +198,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                     ),
+                  ),
+                ],
+              ),
+
+              //if the targetString contains the following special characters \[]()^*+?
+              EasyRichText(
+                "Received 88+ messages. Received 99+ messages",
+                patternList: [
+                  //set hasSpecialCharacters to true
+                  EasyRichTextPattern(
+                    targetString: '99+',
+                    hasSpecialCharacters: true,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  //or if you are familiar with regular expressions, then use \\ to skip it
+                  EasyRichTextPattern(
+                    targetString: '88\\+',
+                    style: TextStyle(color: Colors.blue),
                   ),
                 ],
               ),

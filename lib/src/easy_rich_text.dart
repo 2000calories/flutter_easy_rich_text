@@ -152,8 +152,8 @@ class EasyRichText extends StatelessWidget {
       String wordBoundaryStringAfterTarget1 = "\\s";
       String wordBoundaryStringAfterTarget2 = "\\b";
 
-      String leftBoundary = "\\b";
-      String rightBoundary = "\\b";
+      String leftBoundary = "(?<!\\w)";
+      String rightBoundary = "(?!\\w)";
 
       ///if any of matchWordBoundaries or matchLeftWordBoundary is false
       ///set leftBoundary = ""
@@ -207,7 +207,7 @@ class EasyRichText extends StatelessWidget {
       RegExp exp = new RegExp(thisRegExPattern,
           caseSensitive: caseSensitive, unicode: true);
       var allMatches = exp.allMatches(temText);
-      // print(thisRegExPattern);
+      //print(thisRegExPattern);
 
       ///positions = [[7,11],[26,30],]
       allMatches.forEach((match) {
@@ -245,15 +245,46 @@ class EasyRichText extends StatelessWidget {
     return strList;
   }
 
+  String replaceSpecialCharacters(str) {
+    String tempStr = str;
+    //\[]()^*+?
+    List<String> specialCharacters = [
+      '\\',
+      '[',
+      ']',
+      '(',
+      ')',
+      '^',
+      '*',
+      '+',
+      '?'
+    ];
+    specialCharacters.forEach((chr) {
+      tempStr = tempStr.replaceAll(chr, '\\$chr');
+    });
+
+    return tempStr;
+  }
+
   @override
   Widget build(BuildContext context) {
     String temText = text;
+    List<EasyRichTextPattern> tempPatternList = patternList;
     List<String> strList = [];
 
-    if (patternList == null) {
+    if (tempPatternList == null) {
       strList = [temText];
     } else {
-      strList = processStrList(patternList, temText);
+      tempPatternList.asMap().forEach((index, pattern) {
+        if (pattern.hasSpecialCharacters) {
+          String newTargetString =
+              replaceSpecialCharacters(pattern.targetString);
+          EasyRichTextPattern tempPattern =
+              pattern.copyWith(targetString: newTargetString);
+          tempPatternList[index] = tempPattern;
+        }
+      });
+      strList = processStrList(tempPatternList, temText);
     }
 
     List<InlineSpan> textSpanList = [];
@@ -261,8 +292,8 @@ class EasyRichText extends StatelessWidget {
       var inlineSpan;
       int targetIndex = -1;
 
-      if (patternList != null) {
-        patternList.asMap().forEach((index, pattern) {
+      if (tempPatternList != null) {
+        tempPatternList.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
           //\$, match end
           RegExp targetStringExp = new RegExp('^$targetString\$',
@@ -276,17 +307,17 @@ class EasyRichText extends StatelessWidget {
       ///If str is targetString
       if (targetIndex > -1) {
         //if str is url
-        var urlType = patternList[targetIndex].urlType;
+        var urlType = tempPatternList[targetIndex].urlType;
         if (urlType != null) {
           //change the target string to superscript
           inlineSpan = TextSpan(
             text: str,
             recognizer: tapGestureRecognizerForUrls(str, urlType),
-            style: patternList[targetIndex].style == null
+            style: tempPatternList[targetIndex].style == null
                 ? DefaultTextStyle.of(context).style
-                : patternList[targetIndex].style,
+                : tempPatternList[targetIndex].style,
           );
-        } else if (patternList[targetIndex].superScript && !selectable) {
+        } else if (tempPatternList[targetIndex].superScript && !selectable) {
           //change the target string to superscript
           inlineSpan = WidgetSpan(
             child: Transform.translate(
@@ -294,13 +325,13 @@ class EasyRichText extends StatelessWidget {
               child: Text(
                 str,
                 textScaleFactor: 0.7,
-                style: patternList[targetIndex].style == null
+                style: tempPatternList[targetIndex].style == null
                     ? DefaultTextStyle.of(context).style
-                    : patternList[targetIndex].style,
+                    : tempPatternList[targetIndex].style,
               ),
             ),
           );
-        } else if (patternList[targetIndex].subScript && !selectable) {
+        } else if (tempPatternList[targetIndex].subScript && !selectable) {
           //change the target string to subscript
           inlineSpan = WidgetSpan(
             child: Transform.translate(
@@ -308,19 +339,19 @@ class EasyRichText extends StatelessWidget {
               child: Text(
                 str,
                 textScaleFactor: 0.7,
-                style: patternList[targetIndex].style == null
+                style: tempPatternList[targetIndex].style == null
                     ? DefaultTextStyle.of(context).style
-                    : patternList[targetIndex].style,
+                    : tempPatternList[targetIndex].style,
               ),
             ),
           );
         } else {
           inlineSpan = TextSpan(
             text: str,
-            recognizer: patternList[targetIndex].recognizer,
-            style: patternList[targetIndex].style == null
+            recognizer: tempPatternList[targetIndex].recognizer,
+            style: tempPatternList[targetIndex].style == null
                 ? DefaultTextStyle.of(context).style
-                : patternList[targetIndex].style,
+                : tempPatternList[targetIndex].style,
           );
         }
       } else {

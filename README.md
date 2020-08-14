@@ -17,7 +17,7 @@ GestureRecognizer and url_launcher are integrated.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.4.2'
+  easy_rich_text: '^0.4.3'
 ```
 
 ### Examples:
@@ -32,7 +32,8 @@ dependencies:
 [Regular Expression](#regular-expression) |
 [Url Launcher](#url-launcher) |
 [GestureRecognizer](#gestureRecognizer) |
-[All RichText Properties](#all-richtext-properties)
+[All RichText Properties](#all-richtext-properties) |
+[Special Characters](#special-characters)
 
 #### Simple Example:
 
@@ -253,6 +254,30 @@ EasyRichText(
   textAlign: TextAlign.justify,
   maxLines: 1,
   overflow: TextOverflow.ellipsis,
+),
+```
+
+#### Special Characters
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/special_characters.png)
+
+```dart
+//if the targetString contains the following special characters \[]()^*+?
+EasyRichText(
+  "Received 88+ messages. Received 99+ messages",
+  patternList: [
+    //set hasSpecialCharacters to true
+    EasyRichTextPattern(
+      targetString: '99+',
+      hasSpecialCharacters: true,
+      style: TextStyle(color: Colors.blue),
+    ),
+    //or if you are familiar with regular expressions, then use \\ to skip it
+    EasyRichTextPattern(
+      targetString: '88\\+',
+      style: TextStyle(color: Colors.blue),
+    ),
+  ],
 ),
 ```
 
