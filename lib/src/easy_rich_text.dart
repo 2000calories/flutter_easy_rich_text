@@ -209,9 +209,51 @@ class EasyRichText extends StatelessWidget {
       var allMatches = exp.allMatches(temText);
       //print(thisRegExPattern);
 
-      ///positions = [[7,11],[26,30],]
-      allMatches.forEach((match) {
-        positions.add([match.start, match.end]);
+      //check matchOption ['all','first','last', 0, 1, 2, 3, 10]
+
+      int matchesLength = allMatches.length;
+      List<int> matchIndexList = [];
+      var matchOption = pattern.matchOption;
+      if (matchOption is String) {
+        switch (matchOption) {
+          case 'all':
+            matchIndexList = new List<int>.generate(matchesLength, (i) => i);
+            break;
+          case 'first':
+            matchIndexList = [0];
+            break;
+          case 'last':
+            matchIndexList = [matchesLength - 1];
+            break;
+          default:
+            matchIndexList = new List<int>.generate(matchesLength, (i) => i);
+        }
+      } else if (matchOption is List<dynamic>) {
+        matchOption.forEach(
+          (option) {
+            switch (option) {
+              case 'all':
+                matchIndexList =
+                    new List<int>.generate(matchesLength, (i) => i);
+                break;
+              case 'first':
+                matchIndexList.add(0);
+                break;
+              case 'last':
+                matchIndexList.add(matchesLength - 1);
+                break;
+              default:
+                if (option is int) matchIndexList.add(option);
+            }
+          },
+        );
+      }
+
+      ///eg. positions = [[7,11],[26,30],]
+      allMatches.toList().asMap().forEach((index, match) {
+        if (matchIndexList.indexOf(index) > -1) {
+          positions.add([match.start, match.end]);
+        }
       });
     });
     positions.sort((a, b) => a[0].compareTo(b[0]));
@@ -247,18 +289,8 @@ class EasyRichText extends StatelessWidget {
 
   String replaceSpecialCharacters(str) {
     String tempStr = str;
-    //\[]()^*+?
-    List<String> specialCharacters = [
-      '\\',
-      '[',
-      ']',
-      '(',
-      ')',
-      '^',
-      '*',
-      '+',
-      '?'
-    ];
+    //\[]()^*+?.$-{}|!
+    List<String> specialCharacters = '\\[]()^*+?.\$-{}|!'.split('');
     specialCharacters.forEach((chr) {
       tempStr = tempStr.replaceAll(chr, '\\$chr');
     });

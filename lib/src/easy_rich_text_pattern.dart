@@ -43,8 +43,12 @@ class EasyRichTextPattern {
   ///GestureRecognizer
   final GestureRecognizer recognizer;
 
-  ///set true if the targetString contains specified characters \[]()^*+?
+  ///set true if the targetString contains specified characters \[]()^*+?.$-{}|!
   final bool hasSpecialCharacters;
+
+  ///match first, last, or all [0, 1, 'last']
+  ///defalut match all
+  final dynamic matchOption;
 
   EasyRichTextPattern({
     Key key,
@@ -60,21 +64,24 @@ class EasyRichTextPattern {
     this.urlType,
     this.recognizer,
     this.hasSpecialCharacters = false,
+    this.matchOption = 'all',
   });
 
-  EasyRichTextPattern copyWith(
-      {targetString,
-      stringBeforeTarget,
-      stringAfterTarget,
-      matchWordBoundaries,
-      matchLeftWordBoundary,
-      matchRightWordBoundary,
-      superScript,
-      subScript,
-      style,
-      urlType,
-      recognizer,
-      hasSpecialCharacters}) {
+  EasyRichTextPattern copyWith({
+    targetString,
+    stringBeforeTarget,
+    stringAfterTarget,
+    matchWordBoundaries,
+    matchLeftWordBoundary,
+    matchRightWordBoundary,
+    superScript,
+    subScript,
+    style,
+    urlType,
+    recognizer,
+    hasSpecialCharacters,
+    matchOption,
+  }) {
     return EasyRichTextPattern(
       targetString: targetString ?? this.targetString,
       stringBeforeTarget: stringBeforeTarget ?? this.stringBeforeTarget,
@@ -90,6 +97,7 @@ class EasyRichTextPattern {
       urlType: urlType ?? this.urlType,
       recognizer: recognizer ?? this.recognizer,
       hasSpecialCharacters: hasSpecialCharacters ?? this.hasSpecialCharacters,
+      matchOption: matchOption ?? this.matchOption,
     );
   }
 }

@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //simple example
               EasyRichText(
-                "I want blue font. I want blue font. I want italic font.",
+                "I want blue font. I want bold font. I want italic font.",
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'italic',
@@ -68,10 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   EasyRichTextPattern(
                     targetString: 'bold',
                     style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  EasyRichTextPattern(
-                    targetString: 'italic',
-                    style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
@@ -112,6 +108,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              //matchOption can be a string or a list
+              //string: 'all', 'first', 'last'
+              //List<dynamic>:'first', 'last', and any integer index
+              //For example, [0, 1, 'last'] will match the first, second, and last one.
+              EasyRichText(
+                "blue 1, blue 2, blue 3, blue 4, blue 5",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: 'blue',
+                    //matchOption: 'all'
+                    matchOption: [0, 1, 'last'],
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+
               //All RichText properties accessible
               EasyRichText(
                 "TextOverflow.ellipsis, TextAlign.justify, maxLines: 1. TextOverflow.ellipsis, TextAlign.justify, maxLines: 1.",

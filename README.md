@@ -26,6 +26,7 @@ dependencies:
 [Trademark Example](#trademark-example) |
 [Default Style](#default-style) |
 [Conditional Match](#conditional-match) |
+[Match Option](#match-option) |
 [Superscript and Subscript](#superscript-and-subscript) |
 [Case Sensitivity](#case-sensitivity) |
 [Selectable Text](#selectable-text) |
@@ -111,6 +112,29 @@ EasyRichText(
       targetString: 'blue',
       stringBeforeTarget: 'want',
       stringAfterTarget: "color",
+      style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
+#### Match Option
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/match_option.png)
+
+##### matchOption can be a string or a list. default is 'all'.
+##### string: 'all', 'first', 'last'
+##### List<dynamic>:'first', 'last', and any integer index
+##### For example, [0, 1, 'last'] will match the first, second, and last one.
+              
+```dart
+EasyRichText(
+  "blue 1, blue 2, blue 3, blue 4, blue 5",
+  patternList: [
+    EasyRichTextPattern(
+      targetString: 'blue',
+      //matchOption: 'all'
+      matchOption: [0, 1, 'last'],
       style: TextStyle(color: Colors.blue),
     ),
   ],
