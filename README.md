@@ -17,7 +17,7 @@ GestureRecognizer and url_launcher are integrated.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.4.3'
+  easy_rich_text: '^0.5.0'
 ```
 
 ### Examples:
@@ -123,10 +123,13 @@ EasyRichText(
 ![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/match_option.png)
 
 ##### matchOption can be a string or a list. default is 'all'.
+
 ##### string: 'all', 'first', 'last'
+
 ##### List<dynamic>:'first', 'last', and any integer index
+
 ##### For example, [0, 1, 'last'] will match the first, second, and last one.
-              
+
 ```dart
 EasyRichText(
   "blue 1, blue 2, blue 3, blue 4, blue 5",
