@@ -40,6 +40,23 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              EasyRichText(
+                "Tap recognizer to print this sentence. ~|[]{}#%^*+=_\|<>\$£€•.,?!’",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: '~|[]{}#%^*+=_|<>\$£€•.,?',
+                    hasSpecialCharacters: true,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print("Tap recognizer to print this sentence.");
+                      },
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+
               //trademark example
               EasyRichText(
                 "ProductTM is a superscript trademark symbol. This TM is not a trademark.",

@@ -103,6 +103,10 @@ class EasyRichText extends StatelessWidget {
     }
   }
 
+  List<String> specialCharacters() {
+    return '\\~[]{}#%^*+=_|<>£€•.,!’()?-\$'.split('');
+  }
+
   TapGestureRecognizer tapGestureRecognizerForUrls(String str, String urlType) {
     TapGestureRecognizer tapGestureRecognizer;
     switch (urlType) {
@@ -146,6 +150,8 @@ class EasyRichText extends StatelessWidget {
       bool matchLeftWordBoundary = pattern.matchLeftWordBoundary;
       bool matchRightWordBoundary = pattern.matchRightWordBoundary;
       bool matchWordBoundaries = pattern.matchWordBoundaries;
+      //if hasSpecialCharacters then unicode is
+      bool unicode = !pattern.hasSpecialCharacters;
 
       String wordBoundaryStringBeforeTarget1 = "\\b";
       String wordBoundaryStringBeforeTarget2 = "\\s";
@@ -170,11 +176,11 @@ class EasyRichText extends StatelessWidget {
       }
 
       bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
-              caseSensitive: caseSensitive, unicode: true)
+              caseSensitive: caseSensitive, unicode: unicode)
           .hasMatch(targetString);
 
       bool isArabic = RegExp(r"[\u0621-\u064A]+",
-              caseSensitive: caseSensitive, unicode: true)
+              caseSensitive: caseSensitive, unicode: unicode)
           .hasMatch(targetString);
 
       /// if target string is Han or Arabic character
@@ -205,9 +211,9 @@ class EasyRichText extends StatelessWidget {
       thisRegExPattern =
           '($stringBeforeTargetRegex$leftBoundary$targetString$rightBoundary$stringAfterTargetRegex)';
       RegExp exp = new RegExp(thisRegExPattern,
-          caseSensitive: caseSensitive, unicode: true);
+          caseSensitive: caseSensitive, unicode: unicode);
       var allMatches = exp.allMatches(temText);
-      //print(thisRegExPattern);
+      // print(thisRegExPattern);
 
       //check matchOption ['all','first','last', 0, 1, 2, 3, 10]
 
@@ -290,8 +296,7 @@ class EasyRichText extends StatelessWidget {
   String replaceSpecialCharacters(str) {
     String tempStr = str;
     //\[]()^*+?.$-{}|!
-    List<String> specialCharacters = '\\[]()^*+?.\$-{}|!'.split('');
-    specialCharacters.forEach((chr) {
+    specialCharacters().forEach((chr) {
       tempStr = tempStr.replaceAll(chr, '\\$chr');
     });
 
@@ -303,12 +308,14 @@ class EasyRichText extends StatelessWidget {
     String temText = text;
     List<EasyRichTextPattern> tempPatternList = patternList;
     List<String> strList = [];
+    bool unicode = true;
 
     if (tempPatternList == null) {
       strList = [temText];
     } else {
       tempPatternList.asMap().forEach((index, pattern) {
         if (pattern.hasSpecialCharacters) {
+          unicode = false;
           String newTargetString =
               replaceSpecialCharacters(pattern.targetString);
           EasyRichTextPattern tempPattern =
@@ -329,7 +336,7 @@ class EasyRichText extends StatelessWidget {
           String targetString = pattern.targetString;
           //\$, match end
           RegExp targetStringExp = new RegExp('^$targetString\$',
-              caseSensitive: caseSensitive, unicode: true);
+              caseSensitive: caseSensitive, unicode: unicode);
           if (targetStringExp.hasMatch(str)) {
             targetIndex = index;
           }
