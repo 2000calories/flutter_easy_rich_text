@@ -17,7 +17,7 @@ GestureRecognizer and url_launcher are integrated.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.5.1'
+  easy_rich_text: '^0.5.2'
 ```
 
 ### Examples:

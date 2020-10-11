@@ -68,3 +68,6 @@
 
 ## [0.5.1] - 2020-09-13
 * Update readme
+
+## [0.5.2] - 2020-10-11
+* Special characters
