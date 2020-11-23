@@ -71,3 +71,6 @@
 
 ## [0.5.2] - 2020-10-11
 * Special characters
+
+## [0.5.3] - 2020-11-23
+* Added matchBuilder option in EasyRichTextPattern

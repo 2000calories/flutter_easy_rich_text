@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
+typedef EasyRichTextMatchBuilder = InlineSpan Function(BuildContext context, RegExpMatch match);
+
 class EasyRichTextPattern {
   ///target string that you want to format
   final String targetString;
@@ -50,11 +52,13 @@ class EasyRichTextPattern {
   ///defalut match all
   final dynamic matchOption;
 
+  final EasyRichTextMatchBuilder matchBuilder;
+
   EasyRichTextPattern({
     Key key,
     @required this.targetString,
-    this.stringBeforeTarget = "",
-    this.stringAfterTarget = "",
+    this.stringBeforeTarget = '',
+    this.stringAfterTarget = '',
     this.matchWordBoundaries = true,
     this.matchLeftWordBoundary = true,
     this.matchRightWordBoundary = true,
@@ -65,6 +69,7 @@ class EasyRichTextPattern {
     this.recognizer,
     this.hasSpecialCharacters = false,
     this.matchOption = 'all',
+    this.matchBuilder,
   });
 
   EasyRichTextPattern copyWith({
