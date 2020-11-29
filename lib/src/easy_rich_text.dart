@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'easy_rich_text_pattern.dart';
 
 class EasyRichText extends StatelessWidget {
@@ -330,14 +331,22 @@ class EasyRichText extends StatelessWidget {
     strList.forEach((str) {
       var inlineSpan;
       int targetIndex = -1;
+      RegExpMatch match;
 
       if (tempPatternList != null) {
         tempPatternList.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
+
           //\$, match end
-          RegExp targetStringExp = new RegExp('^$targetString\$',
-              caseSensitive: caseSensitive, unicode: unicode);
-          if (targetStringExp.hasMatch(str)) {
+          RegExp targetStringExp = RegExp(
+            '^$targetString\$',
+            caseSensitive: caseSensitive,
+            unicode: unicode,
+          );
+
+          match = targetStringExp.firstMatch(str);
+
+          if (match is RegExpMatch) {
             targetIndex = index;
           }
         });
@@ -346,17 +355,21 @@ class EasyRichText extends StatelessWidget {
       ///If str is targetString
       if (targetIndex > -1) {
         //if str is url
-        var urlType = tempPatternList[targetIndex].urlType;
-        if (urlType != null) {
+        var pattern = tempPatternList[targetIndex];
+        var urlType = pattern.urlType;
+
+        if (null != pattern.matchBuilder && match is RegExpMatch) {
+          inlineSpan = pattern.matchBuilder(context, match);
+        } else if (urlType != null) {
           //change the target string to superscript
           inlineSpan = TextSpan(
             text: str,
             recognizer: tapGestureRecognizerForUrls(str, urlType),
-            style: tempPatternList[targetIndex].style == null
+            style: pattern.style == null
                 ? DefaultTextStyle.of(context).style
-                : tempPatternList[targetIndex].style,
+                : pattern.style,
           );
-        } else if (tempPatternList[targetIndex].superScript && !selectable) {
+        } else if (pattern.superScript && !selectable) {
           //change the target string to superscript
           inlineSpan = WidgetSpan(
             child: Transform.translate(
@@ -364,13 +377,13 @@ class EasyRichText extends StatelessWidget {
               child: Text(
                 str,
                 textScaleFactor: 0.7,
-                style: tempPatternList[targetIndex].style == null
+                style: pattern.style == null
                     ? DefaultTextStyle.of(context).style
-                    : tempPatternList[targetIndex].style,
+                    : pattern.style,
               ),
             ),
           );
-        } else if (tempPatternList[targetIndex].subScript && !selectable) {
+        } else if (pattern.subScript && !selectable) {
           //change the target string to subscript
           inlineSpan = WidgetSpan(
             child: Transform.translate(
@@ -378,19 +391,19 @@ class EasyRichText extends StatelessWidget {
               child: Text(
                 str,
                 textScaleFactor: 0.7,
-                style: tempPatternList[targetIndex].style == null
+                style: pattern.style == null
                     ? DefaultTextStyle.of(context).style
-                    : tempPatternList[targetIndex].style,
+                    : pattern.style,
               ),
             ),
           );
         } else {
           inlineSpan = TextSpan(
             text: str,
-            recognizer: tempPatternList[targetIndex].recognizer,
-            style: tempPatternList[targetIndex].style == null
+            recognizer: pattern.recognizer,
+            style: pattern.style == null
                 ? DefaultTextStyle.of(context).style
-                : tempPatternList[targetIndex].style,
+                : pattern.style,
           );
         }
       } else {
