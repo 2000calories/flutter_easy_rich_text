@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-typedef EasyRichTextMatchBuilder = InlineSpan Function(BuildContext context, RegExpMatch match);
+typedef EasyRichTextMatchBuilder = InlineSpan Function(BuildContext context, RegExpMatch? match);
 
 class EasyRichTextPattern {
   ///target string that you want to format
@@ -37,13 +37,13 @@ class EasyRichTextPattern {
   final bool subScript;
 
   ///Style of target text
-  final TextStyle style;
+  final TextStyle? style;
 
   ///apply url_launcher, support email, website, and telephone
-  final String urlType;
+  final String? urlType;
 
   ///GestureRecognizer
-  final GestureRecognizer recognizer;
+  final GestureRecognizer? recognizer;
 
   ///set true if the targetString contains specified characters \[]()^*+?.$-{}|!
   final bool hasSpecialCharacters;
@@ -52,11 +52,11 @@ class EasyRichTextPattern {
   ///defalut match all
   final dynamic matchOption;
 
-  final EasyRichTextMatchBuilder matchBuilder;
+  final EasyRichTextMatchBuilder? matchBuilder;
 
   EasyRichTextPattern({
-    Key key,
-    @required this.targetString,
+    Key? key,
+    required this.targetString,
     this.stringBeforeTarget = '',
     this.stringAfterTarget = '',
     this.matchWordBoundaries = true,
