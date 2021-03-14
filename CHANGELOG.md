@@ -74,3 +74,6 @@
 
 ## [0.5.3] - 2020-11-23
 * Added matchBuilder option in EasyRichTextPattern
+
+## [0.5.4] - 2021-03-14
+* Support null safety

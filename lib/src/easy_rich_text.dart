@@ -9,10 +9,10 @@ class EasyRichText extends StatelessWidget {
   final String text;
 
   ///The list of target strings and their styles.
-  final List<EasyRichTextPattern> patternList;
+  final List<EasyRichTextPattern>? patternList;
 
   ///The default text style.
-  final TextStyle defaultStyle;
+  final TextStyle? defaultStyle;
 
   /// How the text should be aligned horizontally.
   final TextAlign textAlign;
@@ -31,7 +31,7 @@ class EasyRichText extends StatelessWidget {
   ///
   /// Defaults to the ambient [Directionality], if any. If there is no ambient
   /// [Directionality], then this must not be null.
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   /// Whether the text should break at soft line breaks.
   ///
@@ -53,7 +53,7 @@ class EasyRichText extends StatelessWidget {
   ///
   /// If this is 1, text will not wrap. Otherwise, text will be wrapped at the
   /// edge of the box.
-  final int maxLines;
+  final int? maxLines;
 
   /// Used to select a font when the same Unicode character can
   /// be rendered differently, depending on the locale.
@@ -62,10 +62,10 @@ class EasyRichText extends StatelessWidget {
   /// is inherited from the enclosing app with `Localizations.localeOf(context)`.
   ///
   /// See [RenderParagraph.locale] for more information.
-  final Locale locale;
+  final Locale? locale;
 
   /// {@macro flutter.painting.textPainter.strutStyle}
-  final StrutStyle strutStyle;
+  final StrutStyle? strutStyle;
 
   /// {@macro flutter.widgets.text.DefaultTextStyle.textWidthBasis}
   final TextWidthBasis textWidthBasis;
@@ -79,7 +79,7 @@ class EasyRichText extends StatelessWidget {
 
   EasyRichText(
     this.text, {
-    Key key,
+    Key? key,
     this.patternList,
     this.defaultStyle,
     this.textAlign = TextAlign.start,
@@ -108,8 +108,8 @@ class EasyRichText extends StatelessWidget {
     return '\\~[]{}#%^*+=_|<>£€•.,!’()?-\$'.split('');
   }
 
-  TapGestureRecognizer tapGestureRecognizerForUrls(String str, String urlType) {
-    TapGestureRecognizer tapGestureRecognizer;
+  TapGestureRecognizer? tapGestureRecognizerForUrls(String str, String urlType) {
+    TapGestureRecognizer? tapGestureRecognizer;
     switch (urlType) {
       case 'web':
         if (str.substring(0, 4) != "http") {
@@ -307,7 +307,7 @@ class EasyRichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String temText = text;
-    List<EasyRichTextPattern> tempPatternList = patternList;
+    List<EasyRichTextPattern>? tempPatternList = patternList;
     List<String> strList = [];
     bool unicode = true;
 
@@ -331,7 +331,7 @@ class EasyRichText extends StatelessWidget {
     strList.forEach((str) {
       var inlineSpan;
       int targetIndex = -1;
-      RegExpMatch match;
+      RegExpMatch? match;
 
       if (tempPatternList != null) {
         tempPatternList.asMap().forEach((index, pattern) {
@@ -355,11 +355,11 @@ class EasyRichText extends StatelessWidget {
       ///If str is targetString
       if (targetIndex > -1) {
         //if str is url
-        var pattern = tempPatternList[targetIndex];
+        var pattern = tempPatternList![targetIndex];
         var urlType = pattern.urlType;
 
         if (null != pattern.matchBuilder && match is RegExpMatch) {
-          inlineSpan = pattern.matchBuilder(context, match);
+          inlineSpan = pattern.matchBuilder!(context, match);
         } else if (urlType != null) {
           //change the target string to superscript
           inlineSpan = TextSpan(
