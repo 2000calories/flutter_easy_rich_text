@@ -77,3 +77,6 @@
 
 ## [0.5.4] - 2021-03-14
 * Support null safety
+
+## [0.5.5] - 2021-05-23
+* targetString list

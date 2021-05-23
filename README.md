@@ -7,6 +7,9 @@ The EasyRichText widget makes the RichText widget easy. You do not have to split
 This widget use regular expression to effectively split the string based on the patterns defined in the list of EasyRichTextPattern.
 
 The EasyRichTextPattern is a class defines the text pattern you want to format.
+
+`targetString` can be a `String` or a `List<String>`.
+
 By default `matchWordBoundaries:true` is set to match the whole word. If you want to match substring in a word, set `matchWordBoundaries:false`
 
 GestureRecognizer and url_launcher are integrated.
@@ -17,7 +20,7 @@ GestureRecognizer and url_launcher are integrated.
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.5.4'
+  easy_rich_text: '^0.5.5'
 ```
 
 ### Examples:
@@ -34,7 +37,8 @@ dependencies:
 [Url Launcher](#url-launcher) |
 [GestureRecognizer](#gestureRecognizer) |
 [All RichText Properties](#all-richtext-properties) |
-[Special Characters](#special-characters)
+[Special Characters](#special-characters) |
+[WhatsApp Like Text Formatter](#whatsapp-like-text-formatter)
 
 #### Simple Example:
 
@@ -303,6 +307,29 @@ EasyRichText(
     EasyRichTextPattern(
       targetString: '88\\+',
       style: TextStyle(color: Colors.blue),
+    ),
+  ],
+),
+```
+
+#### WhatsApp Like Text Formatter
+
+![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/WhatsApp_like_text_formatter.png)
+
+```dart
+///WhatsApp like text formatter
+EasyRichText(
+  "TEST *bold font*. test *boldfont*.",
+  patternList: [
+    ///bold font
+    EasyRichTextPattern(
+      targetString: '(\\*)(.*?)(\\*)',
+      matchBuilder: (BuildContext context, RegExpMatch match) {
+        return TextSpan(
+          text: match[0].replaceAll('*', ''),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        );
+      },
     ),
   ],
 ),

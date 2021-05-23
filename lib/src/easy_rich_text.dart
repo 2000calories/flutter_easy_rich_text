@@ -108,7 +108,8 @@ class EasyRichText extends StatelessWidget {
     return '\\~[]{}#%^*+=_|<>£€•.,!’()?-\$'.split('');
   }
 
-  TapGestureRecognizer? tapGestureRecognizerForUrls(String str, String urlType) {
+  TapGestureRecognizer? tapGestureRecognizerForUrls(
+      String str, String urlType) {
     TapGestureRecognizer? tapGestureRecognizer;
     switch (urlType) {
       case 'web':
@@ -308,6 +309,8 @@ class EasyRichText extends StatelessWidget {
   Widget build(BuildContext context) {
     String temText = text;
     List<EasyRichTextPattern>? tempPatternList = patternList;
+    List<EasyRichTextPattern> finalTempPatternList = [];
+    List<EasyRichTextPattern> finalTempPatternList2 = [];
     List<String> strList = [];
     bool unicode = true;
 
@@ -315,16 +318,30 @@ class EasyRichText extends StatelessWidget {
       strList = [temText];
     } else {
       tempPatternList.asMap().forEach((index, pattern) {
+        ///if targetString is a list
+        if (pattern.targetString is List<String>) {
+          pattern.targetString.asMap().forEach((index, eachTargetString) {
+            finalTempPatternList
+                .add(pattern.copyWith(targetString: eachTargetString));
+          });
+        } else {
+          finalTempPatternList.add(pattern);
+        }
+      });
+
+      finalTempPatternList.asMap().forEach((index, pattern) {
         if (pattern.hasSpecialCharacters) {
           unicode = false;
           String newTargetString =
               replaceSpecialCharacters(pattern.targetString);
-          EasyRichTextPattern tempPattern =
-              pattern.copyWith(targetString: newTargetString);
-          tempPatternList[index] = tempPattern;
+          finalTempPatternList2
+              .add(pattern.copyWith(targetString: newTargetString));
+        } else {
+          finalTempPatternList2.add(pattern);
         }
       });
-      strList = processStrList(tempPatternList, temText);
+
+      strList = processStrList(finalTempPatternList2, temText);
     }
 
     List<InlineSpan> textSpanList = [];
@@ -334,7 +351,7 @@ class EasyRichText extends StatelessWidget {
       RegExpMatch? match;
 
       if (tempPatternList != null) {
-        tempPatternList.asMap().forEach((index, pattern) {
+        finalTempPatternList2.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
 
           //\$, match end
@@ -355,13 +372,12 @@ class EasyRichText extends StatelessWidget {
       ///If str is targetString
       if (targetIndex > -1) {
         //if str is url
-        var pattern = tempPatternList![targetIndex];
+        var pattern = finalTempPatternList2[targetIndex];
         var urlType = pattern.urlType;
 
         if (null != pattern.matchBuilder && match is RegExpMatch) {
           inlineSpan = pattern.matchBuilder!(context, match);
         } else if (urlType != null) {
-          //change the target string to superscript
           inlineSpan = TextSpan(
             text: str,
             recognizer: tapGestureRecognizerForUrls(str, urlType),

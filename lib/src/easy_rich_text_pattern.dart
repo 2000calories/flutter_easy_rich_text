@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-typedef EasyRichTextMatchBuilder = InlineSpan Function(BuildContext context, RegExpMatch? match);
+typedef EasyRichTextMatchBuilder = InlineSpan Function(
+    BuildContext context, RegExpMatch? match);
 
 class EasyRichTextPattern {
   ///target string that you want to format
-  final String targetString;
+  final dynamic targetString;
 
   ///string before target string.
   ///useful when you want to format text after specified words

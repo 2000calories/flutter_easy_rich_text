@@ -71,6 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+
+              ///list of targetString have same text decoration.
+              EasyRichText(
+                "bold1 TEST bold2 TEST bold3",
+                patternList: [
+                  EasyRichTextPattern(
+                    targetString: ['bold1', 'bold2', 'bold3'],
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+
               //default style
               EasyRichText(
                 "This is a EasyRichText example with default grey font. I want blue font here.",
@@ -216,11 +228,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
               //if the targetString contains the following special characters \[]()^*+?
               EasyRichText(
-                "Received 88+ messages. Received 99+ messages",
+                "Received 88+ messages. Received 99+ messages ()",
                 patternList: [
                   //set hasSpecialCharacters to true
                   EasyRichTextPattern(
-                    targetString: '99+',
+                    targetString: '99+(',
                     hasSpecialCharacters: true,
                     style: TextStyle(color: Colors.blue),
                   ),
@@ -228,6 +240,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   EasyRichTextPattern(
                     targetString: '88\\+',
                     style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+
+              ///WhatsApp like text formatter
+              EasyRichText(
+                "TEST *bold font*. test *boldfont*.",
+                patternList: [
+                  ///bold font
+                  EasyRichTextPattern(
+                    targetString: '(\\*)(.*?)(\\*)',
+                    matchBuilder: (BuildContext context, RegExpMatch match) {
+                      return TextSpan(
+                        text: match[0].replaceAll('*', ''),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      );
+                    },
                   ),
                 ],
               ),
