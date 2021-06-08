@@ -264,7 +264,9 @@ class EasyRichText extends StatelessWidget {
         }
       });
     });
+    //in some cases the sorted result is still disordered;need re-sort the 1d list;
     positions.sort((a, b) => a[0].compareTo(b[0]));
+
     //remove invalid positions
     List<List<int>> postionsToRemove = [];
     for (var i = 1; i < positions.length; i++) {
@@ -283,6 +285,7 @@ class EasyRichText extends StatelessWidget {
       splitPositions.add(position[1]);
     });
     splitPositions.add(temText.length);
+    splitPositions.sort();
 
     splitPositions.asMap().forEach((index, splitPosition) {
       if (index != 0) {
@@ -290,8 +293,6 @@ class EasyRichText extends StatelessWidget {
             .add(temText.substring(splitPositions[index - 1], splitPosition));
       }
     });
-
-    // print(strList);
     return strList;
   }
 
