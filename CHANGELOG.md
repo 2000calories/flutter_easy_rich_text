@@ -80,3 +80,6 @@
 
 ## [0.5.5] - 2021-05-23
 * targetString list
+
+## [0.5.6] - 2021-06-10
+* fix splitPositions sort problem
