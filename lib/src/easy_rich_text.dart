@@ -270,7 +270,7 @@ class EasyRichText extends StatelessWidget {
     //remove invalid positions
     List<List<int>> postionsToRemove = [];
     for (var i = 1; i < positions.length; i++) {
-      if (positions[i][0] <= positions[i - 1][1]) {
+      if (positions[i][0] < positions[i - 1][1]) {
         postionsToRemove.add(positions[i]);
       }
     }

@@ -83,3 +83,6 @@
 
 ## [0.5.6] - 2021-06-10
 * fix splitPositions sort problem
+
+## [0.5.7] - 2021-07-11
+* minor bug fixes

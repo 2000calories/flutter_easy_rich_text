@@ -14,13 +14,15 @@ By default `matchWordBoundaries:true` is set to match the whole word. If you wan
 
 GestureRecognizer and url_launcher are integrated.
 
+If you find this package useful, I would appreciate it if you can give me a star on [Github](https://github.com/2000calories/flutter_easy_rich_text) or a like on [pub.dev](https://pub.dev/packages/easy_rich_text)
+
 ## Getting Started
 
 ### Installing:
 
 ```yaml
 dependencies:
-  easy_rich_text: '^0.5.6'
+  easy_rich_text: '^0.5.7'
 ```
 
 ### Examples:
@@ -360,5 +362,3 @@ EasyRichText(
   ],
 ),
 ```
-
-#### If you find EasyRichText makes RichText easy, I would appreciate it if you can give me a star on [Github](https://github.com/2000calories/flutter_easy_rich_text) and a like on [pub.dev](https://pub.dev/packages/easy_rich_text)
