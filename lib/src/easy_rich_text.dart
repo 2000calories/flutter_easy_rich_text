@@ -215,7 +215,7 @@ class EasyRichText extends StatelessWidget {
       RegExp exp = new RegExp(thisRegExPattern,
           caseSensitive: caseSensitive, unicode: unicode);
       var allMatches = exp.allMatches(temText);
-      // print(thisRegExPattern);
+      print(thisRegExPattern);
 
       //check matchOption ['all','first','last', 0, 1, 2, 3, 10]
 
@@ -293,6 +293,7 @@ class EasyRichText extends StatelessWidget {
             .add(temText.substring(splitPositions[index - 1], splitPosition));
       }
     });
+    print(strList);
     return strList;
   }
 
@@ -350,7 +351,7 @@ class EasyRichText extends StatelessWidget {
       var inlineSpan;
       int targetIndex = -1;
       RegExpMatch? match;
-
+      print(finalTempPatternList2);
       if (tempPatternList != null) {
         finalTempPatternList2.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
@@ -362,10 +363,12 @@ class EasyRichText extends StatelessWidget {
             unicode: unicode,
           );
 
-          match = targetStringExp.firstMatch(str);
-
-          if (match is RegExpMatch) {
+          RegExpMatch? tempMatch = targetStringExp.firstMatch(str);
+          print(str);
+          print(match);
+          if (tempMatch is RegExpMatch) {
             targetIndex = index;
+            match = tempMatch;
           }
         });
       }
