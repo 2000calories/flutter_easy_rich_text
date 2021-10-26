@@ -86,3 +86,6 @@
 
 ## [0.5.7] - 2021-07-11
 * minor bug fixes
+
+## [1.0.0] - 2021-10-26
+* WhatsApp Like Text Formatter
