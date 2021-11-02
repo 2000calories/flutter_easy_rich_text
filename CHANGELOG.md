@@ -89,3 +89,6 @@
 
 ## [1.0.0] - 2021-10-26
 * WhatsApp Like Text Formatter
+
+## [1.0.1] - 2021-11-02
+* Remove print statements from production code
