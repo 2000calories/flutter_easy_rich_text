@@ -92,3 +92,6 @@
 
 ## [1.0.1] - 2021-11-02
 * Remove print statements from production code
+
+## [1.0.2] - 2022-01-16
+* Fix iOS phone url issue
