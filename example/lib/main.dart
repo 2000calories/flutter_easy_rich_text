@@ -36,7 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          color: Colors.red,
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -178,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   ///urls, will disable superscript and subscript
                   EasyRichText(
-                    "Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
+                    "My phone 078 123 45 67 \n\n 434 434 44. Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
                     patternList: [
                       EasyRichTextPattern(
                         targetString: 'https://pub.dev/packages/easy_rich_text',
@@ -257,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         targetString: '(\\*)(.*?)(\\*)',
                         matchBuilder:
                             (BuildContext context, RegExpMatch match) {
-                          print(match[0]);
+                          // print(match[0]);
                           return TextSpan(
                             text: match[0].replaceAll('*', ''),
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -270,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         targetString: '(\_)(.*?)(\_)',
                         matchBuilder:
                             (BuildContext context, RegExpMatch match) {
-                          print(match[0]);
+                          // print(match[0]);
                           return TextSpan(
                             text: match[0].replaceAll('_', ''),
                             style: TextStyle(fontStyle: FontStyle.italic),
@@ -283,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         targetString: '(\~)(.*?)(\~)',
                         matchBuilder:
                             (BuildContext context, RegExpMatch match) {
-                          print(match[0]);
+                          // print(match[0]);
                           return TextSpan(
                             text: match[0].replaceAll('~', ''),
                             style: TextStyle(
