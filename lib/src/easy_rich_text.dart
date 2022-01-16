@@ -128,7 +128,8 @@ class EasyRichText extends StatelessWidget {
       case 'tel':
         tapGestureRecognizer = TapGestureRecognizer()
           ..onTap = () {
-            _launchURL("tel:$str");
+            _launchURL("tel:${str.replaceAll(' ', '')}");
+	    // In order to recognize the number, iOS requires no empty spaces.
           };
         break;
       default:
