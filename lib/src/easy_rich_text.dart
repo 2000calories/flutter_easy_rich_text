@@ -129,7 +129,7 @@ class EasyRichText extends StatelessWidget {
         tapGestureRecognizer = TapGestureRecognizer()
           ..onTap = () {
             _launchURL("tel:${str.replaceAll(' ', '')}");
-	    // In order to recognize the number, iOS requires no empty spaces.
+            // In order to recognize the number, iOS requires no empty spaces.
           };
         break;
       default:
@@ -443,8 +443,8 @@ class EasyRichText extends StatelessWidget {
         textWidthBasis: textWidthBasis,
       );
     } else {
-      return RichText(
-        text: TextSpan(
+      return Text.rich(
+        TextSpan(
             style: defaultStyle == null
                 ? DefaultTextStyle.of(context).style
                 : defaultStyle,
