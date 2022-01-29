@@ -41,8 +41,8 @@ void main() {
 
     var time3 = new DateTime.now();
     for (var i = 0; i < 100000; i++) {
-      RichText(
-        text: TextSpan(
+      Text.rich(
+        TextSpan(
           children: <TextSpan>[
             TextSpan(
               text: 'This is a EasyRichText example. I want blue font. I want ',

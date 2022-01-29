@@ -95,3 +95,6 @@
 
 ## [1.0.2] - 2022-01-16
 * Fix iOS phone url issue
+
+## [1.0.3] - 2022-01-28
+* Use Text.rich

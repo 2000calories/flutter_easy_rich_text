@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   ///urls, will disable superscript and subscript
                   EasyRichText(
-                    "My phone 078 123 45 67 \n\n 434 434 44. Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
+                    "Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
                     patternList: [
                       EasyRichTextPattern(
                         targetString: 'https://pub.dev/packages/easy_rich_text',
