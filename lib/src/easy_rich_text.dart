@@ -1,6 +1,10 @@
+import 'dart:ui';
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'easy_rich_text_pattern.dart';
 
 class EasyRichText extends StatelessWidget {
@@ -8,10 +12,10 @@ class EasyRichText extends StatelessWidget {
   final String text;
 
   ///The list of target strings and their styles.
-  final List<EasyRichTextPattern> patternList;
+  final List<EasyRichTextPattern>? patternList;
 
   ///The default text style.
-  final TextStyle defaultStyle;
+  final TextStyle? defaultStyle;
 
   /// How the text should be aligned horizontally.
   final TextAlign textAlign;
@@ -30,7 +34,7 @@ class EasyRichText extends StatelessWidget {
   ///
   /// Defaults to the ambient [Directionality], if any. If there is no ambient
   /// [Directionality], then this must not be null.
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   /// Whether the text should break at soft line breaks.
   ///
@@ -52,7 +56,7 @@ class EasyRichText extends StatelessWidget {
   ///
   /// If this is 1, text will not wrap. Otherwise, text will be wrapped at the
   /// edge of the box.
-  final int maxLines;
+  final int? maxLines;
 
   /// Used to select a font when the same Unicode character can
   /// be rendered differently, depending on the locale.
@@ -61,10 +65,10 @@ class EasyRichText extends StatelessWidget {
   /// is inherited from the enclosing app with `Localizations.localeOf(context)`.
   ///
   /// See [RenderParagraph.locale] for more information.
-  final Locale locale;
+  final Locale? locale;
 
   /// {@macro flutter.painting.textPainter.strutStyle}
-  final StrutStyle strutStyle;
+  final StrutStyle? strutStyle;
 
   /// {@macro flutter.widgets.text.DefaultTextStyle.textWidthBasis}
   final TextWidthBasis textWidthBasis;
@@ -76,9 +80,63 @@ class EasyRichText extends StatelessWidget {
   ///selectable text, default false
   final bool selectable;
 
+  ///toolbar options for selectable text
+  final ToolbarOptions? toolbarOptions;
+
+  ///selection controls for selectable text
+  final TextSelectionControls? selectionControls;
+
+  ///scroll physics for selectable text
+  final ScrollPhysics? scrollPhysics;
+
+  ///text height behavior for selectable text
+  final TextHeightBehavior? textHeightBehavior;
+
+  ///interactive selection control for selectable text
+  final bool enableInteractiveSelection;
+
+  ///autofocus for selectable text
+  final bool autofocus;
+
+  ///cursor radius for selectable text
+  final Radius? cursorRadius;
+
+  ///drag start behavior for selectable text
+  final DragStartBehavior dragStartBehavior;
+
+  ///on selection change function for selectable text
+  final SelectionChangedCallback? onSelectionChanged;
+
+  ///selection height style for selectable text
+  final BoxHeightStyle selectionHeightStyle;
+
+  ///selection width style for selectable text
+  final BoxWidthStyle selectionWidthStyle;
+
+  ///min lines for selectable text
+  final int? minLines;
+
+  ///cursor height for selectable text
+  final double? cursorHeight;
+
+  ///cursor width for selectable text
+  final double cursorWidth;
+
+  ///cursor color for selectable text
+  final Color? cursorColor;
+
+  ///focus node for selectable text
+  final FocusNode? focusNode;
+
+  ///semantics label for selectable text
+  final String? semanticsLabel;
+
+  ///show cursor control for selectable text
+  final bool showCursor;
+
   EasyRichText(
     this.text, {
-    Key key,
+    Key? key,
     this.patternList,
     this.defaultStyle,
     this.textAlign = TextAlign.start,
@@ -92,6 +150,24 @@ class EasyRichText extends StatelessWidget {
     this.textWidthBasis = TextWidthBasis.parent,
     this.caseSensitive = true,
     this.selectable = false,
+    this.toolbarOptions,
+    this.selectionControls,
+    this.scrollPhysics,
+    this.textHeightBehavior,
+    this.enableInteractiveSelection = true,
+    this.autofocus = false,
+    this.cursorRadius,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.onSelectionChanged,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.minLines,
+    this.cursorHeight,
+    this.cursorWidth = 2.0,
+    this.cursorColor,
+    this.focusNode,
+    this.semanticsLabel,
+    this.showCursor = false,
   });
 
   _launchURL(String str) async {
@@ -104,7 +180,7 @@ class EasyRichText extends StatelessWidget {
   }
 
   TapGestureRecognizer tapGestureRecognizerForUrls(String str, String urlType) {
-    TapGestureRecognizer tapGestureRecognizer;
+    late TapGestureRecognizer tapGestureRecognizer;
     switch (urlType) {
       case 'web':
         if (str.substring(0, 4) != "http") {
@@ -128,6 +204,7 @@ class EasyRichText extends StatelessWidget {
           };
         break;
       default:
+        TapGestureRecognizer();
     }
     return tapGestureRecognizer;
   }
@@ -301,10 +378,11 @@ class EasyRichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String temText = text;
-    List<EasyRichTextPattern> tempPatternList = patternList;
+    List<EasyRichTextPattern> tempPatternList =
+        patternList ?? <EasyRichTextPattern>[];
     List<String> strList = [];
 
-    if (tempPatternList == null) {
+    if (tempPatternList.isEmpty) {
       strList = [temText];
     } else {
       tempPatternList.asMap().forEach((index, pattern) {
@@ -324,7 +402,7 @@ class EasyRichText extends StatelessWidget {
       var inlineSpan;
       int targetIndex = -1;
 
-      if (tempPatternList != null) {
+      if (tempPatternList.isNotEmpty) {
         tempPatternList.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
           //\$, match end
@@ -401,12 +479,30 @@ class EasyRichText extends StatelessWidget {
                 ? DefaultTextStyle.of(context).style
                 : defaultStyle,
             children: textSpanList),
+        scrollPhysics: scrollPhysics,
+        toolbarOptions: toolbarOptions,
         maxLines: maxLines,
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
         textScaleFactor: textScaleFactor,
         textWidthBasis: textWidthBasis,
+        selectionControls: selectionControls,
+        textHeightBehavior: textHeightBehavior,
+        enableInteractiveSelection: enableInteractiveSelection,
+        autofocus: autofocus,
+        cursorRadius: cursorRadius,
+        dragStartBehavior: dragStartBehavior,
+        onSelectionChanged: onSelectionChanged,
+        selectionHeightStyle: selectionHeightStyle,
+        selectionWidthStyle: selectionWidthStyle,
+        minLines: minLines,
+        cursorHeight: cursorHeight,
+        cursorColor: cursorColor,
+        cursorWidth: cursorWidth,
+        focusNode: focusNode,
+        semanticsLabel: semanticsLabel,
+        showCursor: showCursor,
       );
     } else {
       return RichText(

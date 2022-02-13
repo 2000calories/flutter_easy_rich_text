@@ -1,6 +1,6 @@
+import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_rich_text/easy_rich_text.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -59,6 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'italic',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print('meh');
+                      },
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   EasyRichTextPattern(

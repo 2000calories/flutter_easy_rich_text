@@ -35,24 +35,24 @@ class EasyRichTextPattern {
   final bool subScript;
 
   ///Style of target text
-  final TextStyle style;
+  final TextStyle? style;
 
   ///apply url_launcher, support email, website, and telephone
-  final String urlType;
+  final String? urlType;
 
   ///GestureRecognizer
-  final GestureRecognizer recognizer;
+  final GestureRecognizer? recognizer;
 
   ///set true if the targetString contains specified characters \[]()^*+?.$-{}|!
   final bool hasSpecialCharacters;
 
   ///match first, last, or all [0, 1, 'last']
-  ///defalut match all
+  ///default match all
   final dynamic matchOption;
 
   EasyRichTextPattern({
-    Key key,
-    @required this.targetString,
+    Key? key,
+    required this.targetString,
     this.stringBeforeTarget = "",
     this.stringAfterTarget = "",
     this.matchWordBoundaries = true,

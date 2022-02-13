@@ -14,12 +14,12 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.13.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  url_launcher: ^5.5.0
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
