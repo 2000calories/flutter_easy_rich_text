@@ -59,10 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 patternList: [
                   EasyRichTextPattern(
                     targetString: 'italic',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        print('meh');
-                      },
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   EasyRichTextPattern(
