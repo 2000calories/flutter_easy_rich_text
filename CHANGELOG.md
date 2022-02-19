@@ -98,3 +98,6 @@
 
 ## [1.0.3] - 2022-01-28
 * Use Text.rich
+
+## [1.0.4] - 2022-02-19
+* Add all attributes of selectable text and null safety
