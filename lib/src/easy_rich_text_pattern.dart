@@ -50,7 +50,7 @@ class EasyRichTextPattern {
   final bool hasSpecialCharacters;
 
   ///match first, last, or all [0, 1, 'last']
-  ///defalut match all
+  ///default match all
   final dynamic matchOption;
 
   final EasyRichTextMatchBuilder? matchBuilder;

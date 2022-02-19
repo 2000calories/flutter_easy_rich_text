@@ -1,6 +1,6 @@
+import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_rich_text/easy_rich_text.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -255,10 +255,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       EasyRichTextPattern(
                         targetString: '(\\*)(.*?)(\\*)',
                         matchBuilder:
-                            (BuildContext context, RegExpMatch match) {
+                            (BuildContext context, RegExpMatch? match) {
                           // print(match[0]);
                           return TextSpan(
-                            text: match[0].replaceAll('*', ''),
+                            text: match?[0]?.replaceAll('*', ''),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           );
                         },
@@ -268,10 +268,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       EasyRichTextPattern(
                         targetString: '(\_)(.*?)(\_)',
                         matchBuilder:
-                            (BuildContext context, RegExpMatch match) {
+                            (BuildContext context, RegExpMatch? match) {
                           // print(match[0]);
                           return TextSpan(
-                            text: match[0].replaceAll('_', ''),
+                            text: match?[0]?.replaceAll('_', ''),
                             style: TextStyle(fontStyle: FontStyle.italic),
                           );
                         },
@@ -281,10 +281,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       EasyRichTextPattern(
                         targetString: '(\~)(.*?)(\~)',
                         matchBuilder:
-                            (BuildContext context, RegExpMatch match) {
+                            (BuildContext context, RegExpMatch? match) {
                           // print(match[0]);
                           return TextSpan(
-                            text: match[0].replaceAll('~', ''),
+                            text: match?[0]?.replaceAll('~', ''),
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough),
                           );

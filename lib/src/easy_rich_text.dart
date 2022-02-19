@@ -1,3 +1,6 @@
+import 'dart:ui';
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,6 +80,60 @@ class EasyRichText extends StatelessWidget {
   ///selectable text, default false
   final bool selectable;
 
+  ///toolbar options for selectable text
+  final ToolbarOptions? toolbarOptions;
+
+  ///selection controls for selectable text
+  final TextSelectionControls? selectionControls;
+
+  ///scroll physics for selectable text
+  final ScrollPhysics? scrollPhysics;
+
+  ///text height behavior for selectable text
+  final TextHeightBehavior? textHeightBehavior;
+
+  ///interactive selection control for selectable text
+  final bool enableInteractiveSelection;
+
+  ///autofocus for selectable text
+  final bool autofocus;
+
+  ///cursor radius for selectable text
+  final Radius? cursorRadius;
+
+  ///drag start behavior for selectable text
+  final DragStartBehavior dragStartBehavior;
+
+  ///on selection change function for selectable text
+  final SelectionChangedCallback? onSelectionChanged;
+
+  ///selection height style for selectable text
+  final BoxHeightStyle selectionHeightStyle;
+
+  ///selection width style for selectable text
+  final BoxWidthStyle selectionWidthStyle;
+
+  ///min lines for selectable text
+  final int? minLines;
+
+  ///cursor height for selectable text
+  final double? cursorHeight;
+
+  ///cursor width for selectable text
+  final double cursorWidth;
+
+  ///cursor color for selectable text
+  final Color? cursorColor;
+
+  ///focus node for selectable text
+  final FocusNode? focusNode;
+
+  ///semantics label for selectable text
+  final String? semanticsLabel;
+
+  ///show cursor control for selectable text
+  final bool showCursor;
+
   EasyRichText(
     this.text, {
     Key? key,
@@ -93,6 +150,24 @@ class EasyRichText extends StatelessWidget {
     this.textWidthBasis = TextWidthBasis.parent,
     this.caseSensitive = true,
     this.selectable = false,
+    this.toolbarOptions,
+    this.selectionControls,
+    this.scrollPhysics,
+    this.textHeightBehavior,
+    this.enableInteractiveSelection = true,
+    this.autofocus = false,
+    this.cursorRadius,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.onSelectionChanged,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.minLines,
+    this.cursorHeight,
+    this.cursorWidth = 2.0,
+    this.cursorColor,
+    this.focusNode,
+    this.semanticsLabel,
+    this.showCursor = false,
   });
 
   _launchURL(String str) async {
@@ -133,6 +208,7 @@ class EasyRichText extends StatelessWidget {
           };
         break;
       default:
+        TapGestureRecognizer();
     }
     return tapGestureRecognizer;
   }
@@ -307,13 +383,14 @@ class EasyRichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String temText = text;
-    List<EasyRichTextPattern>? tempPatternList = patternList;
+    List<EasyRichTextPattern> tempPatternList =
+        patternList ?? <EasyRichTextPattern>[];
     List<EasyRichTextPattern> finalTempPatternList = [];
     List<EasyRichTextPattern> finalTempPatternList2 = [];
     List<String> strList = [];
     bool unicode = true;
 
-    if (tempPatternList == null) {
+    if (tempPatternList.isEmpty) {
       strList = [temText];
     } else {
       tempPatternList.asMap().forEach((index, pattern) {
@@ -348,7 +425,7 @@ class EasyRichText extends StatelessWidget {
       var inlineSpan;
       int targetIndex = -1;
       RegExpMatch? match;
-      if (tempPatternList != null) {
+      if (tempPatternList.isNotEmpty) {
         finalTempPatternList2.asMap().forEach((index, pattern) {
           String targetString = pattern.targetString;
 
@@ -435,12 +512,30 @@ class EasyRichText extends StatelessWidget {
                 ? DefaultTextStyle.of(context).style
                 : defaultStyle,
             children: textSpanList),
+        scrollPhysics: scrollPhysics,
+        toolbarOptions: toolbarOptions,
         maxLines: maxLines,
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
         textScaleFactor: textScaleFactor,
         textWidthBasis: textWidthBasis,
+        selectionControls: selectionControls,
+        textHeightBehavior: textHeightBehavior,
+        enableInteractiveSelection: enableInteractiveSelection,
+        autofocus: autofocus,
+        cursorRadius: cursorRadius,
+        dragStartBehavior: dragStartBehavior,
+        onSelectionChanged: onSelectionChanged,
+        selectionHeightStyle: selectionHeightStyle,
+        selectionWidthStyle: selectionWidthStyle,
+        minLines: minLines,
+        cursorHeight: cursorHeight,
+        cursorColor: cursorColor,
+        cursorWidth: cursorWidth,
+        focusNode: focusNode,
+        semanticsLabel: semanticsLabel,
+        showCursor: showCursor,
       );
     } else {
       return Text.rich(
