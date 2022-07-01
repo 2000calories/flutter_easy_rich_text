@@ -101,3 +101,6 @@
 
 ## [1.0.4] - 2022-02-19
 * Add all attributes of selectable text and null safety
+
+## [1.1.0] - 2022-07-01
+* Implement multiLine and dotAll

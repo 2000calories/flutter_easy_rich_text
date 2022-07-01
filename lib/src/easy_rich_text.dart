@@ -77,6 +77,15 @@ class EasyRichText extends StatelessWidget {
   ///default true
   final bool caseSensitive;
 
+  /// If multiLine is enabled, then ^ and $ will match the beginning and end of a line, in addition to matching beginning and end of input, respectively.
+  final bool multiLine;
+
+  /// If dotAll is enabled, then the . pattern will match all characters, including line terminators.
+  final bool dotAll;
+
+  /// If unicode is enabled, then the pattern is treated as a Unicode pattern as described by the ECMAScript standard.
+  final bool unicode;
+
   ///selectable text, default false
   final bool selectable;
 
@@ -168,6 +177,9 @@ class EasyRichText extends StatelessWidget {
     this.focusNode,
     this.semanticsLabel,
     this.showCursor = false,
+    this.multiLine = false,
+    this.dotAll = false,
+    this.unicode = false,
   });
 
   _launchURL(String str) async {
@@ -252,9 +264,13 @@ class EasyRichText extends StatelessWidget {
         wordBoundaryStringAfterTarget2 = "";
       }
 
-      bool isHan = RegExp(r"[\u4e00-\u9fa5]+",
-              caseSensitive: caseSensitive, unicode: unicode)
-          .hasMatch(targetString);
+      bool isHan = RegExp(
+        r"[\u4e00-\u9fa5]+",
+        caseSensitive: caseSensitive,
+        unicode: unicode,
+        multiLine: multiLine,
+        dotAll: dotAll,
+      ).hasMatch(targetString);
 
       bool isArabic = RegExp(r"[\u0621-\u064A]+",
               caseSensitive: caseSensitive, unicode: unicode)
@@ -287,8 +303,13 @@ class EasyRichText extends StatelessWidget {
       //modify targetString by matchWordBoundaries and wordBoundaryStringBeforeTarget settings
       thisRegExPattern =
           '($stringBeforeTargetRegex$leftBoundary$targetString$rightBoundary$stringAfterTargetRegex)';
-      RegExp exp = new RegExp(thisRegExPattern,
-          caseSensitive: caseSensitive, unicode: unicode);
+      RegExp exp = new RegExp(
+        thisRegExPattern,
+        caseSensitive: caseSensitive,
+        unicode: unicode,
+        multiLine: multiLine,
+        dotAll: dotAll,
+      );
       var allMatches = exp.allMatches(temText);
 
       //check matchOption ['all','first','last', 0, 1, 2, 3, 10]
@@ -434,6 +455,8 @@ class EasyRichText extends StatelessWidget {
             '^$targetString\$',
             caseSensitive: caseSensitive,
             unicode: unicode,
+            multiLine: multiLine,
+            dotAll: dotAll,
           );
 
           RegExpMatch? tempMatch = targetStringExp.firstMatch(str);

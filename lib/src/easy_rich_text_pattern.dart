@@ -87,6 +87,7 @@ class EasyRichTextPattern {
     recognizer,
     hasSpecialCharacters,
     matchOption,
+    matchBuilder,
   }) {
     return EasyRichTextPattern(
       targetString: targetString ?? this.targetString,
@@ -104,6 +105,7 @@ class EasyRichTextPattern {
       recognizer: recognizer ?? this.recognizer,
       hasSpecialCharacters: hasSpecialCharacters ?? this.hasSpecialCharacters,
       matchOption: matchOption ?? this.matchOption,
+      matchBuilder: matchBuilder ?? this.matchBuilder,
     );
   }
 }
