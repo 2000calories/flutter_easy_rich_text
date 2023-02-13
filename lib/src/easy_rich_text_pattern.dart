@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 typedef EasyRichTextMatchBuilder = InlineSpan Function(
     BuildContext context, RegExpMatch? match);
+typedef EasyPattern = EasyRichTextPattern;
 
 class EasyRichTextPattern {
   ///target string that you want to format
@@ -53,25 +54,33 @@ class EasyRichTextPattern {
   ///default match all
   final dynamic matchOption;
 
+  ///replace text by pattern
   final EasyRichTextMatchBuilder? matchBuilder;
 
-  EasyRichTextPattern({
-    Key? key,
-    required this.targetString,
-    this.stringBeforeTarget = '',
-    this.stringAfterTarget = '',
-    this.matchWordBoundaries = true,
-    this.matchLeftWordBoundary = true,
-    this.matchRightWordBoundary = true,
-    this.superScript = false,
-    this.subScript = false,
-    this.style,
-    this.urlType,
-    this.recognizer,
-    this.hasSpecialCharacters = false,
-    this.matchOption = 'all',
-    this.matchBuilder,
-  });
+  ///InlineSpan widget before targetStriing
+  final InlineSpan? prefixInlineSpan;
+
+  ///InlineSpan widget after targetStriing
+  final InlineSpan? suffixInlineSpan;
+
+  EasyRichTextPattern(
+      {Key? key,
+      required this.targetString,
+      this.stringBeforeTarget = '',
+      this.stringAfterTarget = '',
+      this.matchWordBoundaries = true,
+      this.matchLeftWordBoundary = true,
+      this.matchRightWordBoundary = true,
+      this.superScript = false,
+      this.subScript = false,
+      this.style,
+      this.urlType,
+      this.recognizer,
+      this.hasSpecialCharacters = false,
+      this.matchOption = 'all',
+      this.matchBuilder,
+      this.prefixInlineSpan,
+      this.suffixInlineSpan});
 
   EasyRichTextPattern copyWith({
     targetString,
@@ -88,6 +97,8 @@ class EasyRichTextPattern {
     hasSpecialCharacters,
     matchOption,
     matchBuilder,
+    prefixInlineSpan,
+    suffixInlineSpan,
   }) {
     return EasyRichTextPattern(
       targetString: targetString ?? this.targetString,
@@ -106,6 +117,8 @@ class EasyRichTextPattern {
       hasSpecialCharacters: hasSpecialCharacters ?? this.hasSpecialCharacters,
       matchOption: matchOption ?? this.matchOption,
       matchBuilder: matchBuilder ?? this.matchBuilder,
+      prefixInlineSpan: prefixInlineSpan ?? this.prefixInlineSpan,
+      suffixInlineSpan: suffixInlineSpan ?? this.suffixInlineSpan,
     );
   }
 }
