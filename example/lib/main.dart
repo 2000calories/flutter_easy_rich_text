@@ -293,6 +293,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
 
+                  ///add icon before/after targetString
+                  EasyRichText(
+                    "Please contact us at +123456789",
+                    patternList: [
+                      EasyRichTextPattern(
+                        targetString: EasyRegexPattern.telPattern,
+                        prefixInlineSpan: WidgetSpan(
+                          child: Icon(Icons.local_phone),
+                        ),
+                        suffixInlineSpan: WidgetSpan(
+                          child: Icon(Icons.local_phone),
+                        ),
+                      )
+                    ],
+                  ),
+
                   //know issue
                   EasyRichText(
                     "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",

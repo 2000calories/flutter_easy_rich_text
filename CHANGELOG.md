@@ -98,3 +98,6 @@
 
 ## [1.0.3] - 2022-01-28
 * Use Text.rich
+
+## [1.2.0] - 2023-02-13
+* Add prefixInlineSpan and suffixInlineSpan

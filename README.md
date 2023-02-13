@@ -2,11 +2,11 @@
 
 [![pub package](https://img.shields.io/pub/v/easy_rich_text.svg)](https://pub.dev/packages/easy_rich_text) [![GitHub license](https://img.shields.io/github/license/2000calories/flutter_easy_rich_text)](https://github.com/2000calories/flutter_easy_rich_text/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/2000calories/flutter_easy_rich_text)](https://github.com/2000calories/flutter_easy_rich_text/stargazers)
 
-The EasyRichText widget makes the RichText widget easy. You do not have to split the string manually.
+The `EasyRichText` widget makes the RichText widget easy. You do not have to split the string manually.
 
-This widget use regular expression to effectively split the string based on the patterns defined in the list of EasyRichTextPattern.
+This widget use regular expression to effectively split the string based on the patterns defined in the list of `EasyRichTextPattern`.
 
-The EasyRichTextPattern is a class defines the text pattern you want to format.
+The `EasyRichTextPattern` is a class defines the text pattern you want to format.
 
 `targetString` can be a `String` or a `List<String>`.
 
@@ -333,6 +333,25 @@ EasyRichText(
         );
       },
     ),
+  ],
+),
+```
+
+#### prefixInlineSpan & suffixInlineSpan
+```dart
+///add icon before/after targetString
+EasyRichText(
+  "Please contact us at +123456789",
+  patternList: [
+    EasyRichTextPattern(
+      targetString: EasyRegexPattern.telPattern,
+      prefixInlineSpan: WidgetSpan(
+        child: Icon(Icons.local_phone),
+      ),
+      suffixInlineSpan: WidgetSpan(
+        child: Icon(Icons.local_phone),
+      ),
+    )
   ],
 ),
 ```

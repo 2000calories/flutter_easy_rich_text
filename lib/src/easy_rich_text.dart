@@ -420,12 +420,21 @@ class EasyRichText extends StatelessWidget {
                 : pattern.style,
           );
         }
+
+        ///add prefix/suffix InlineSpan
+        if (null != pattern.prefixInlineSpan) {
+          textSpanList.add(pattern.prefixInlineSpan!);
+        }
+        textSpanList.add(inlineSpan);
+        if (null != pattern.suffixInlineSpan) {
+          textSpanList.add(pattern.suffixInlineSpan!);
+        }
       } else {
         inlineSpan = TextSpan(
           text: str,
         );
+        textSpanList.add(inlineSpan);
       }
-      textSpanList.add(inlineSpan);
     });
 
     if (selectable) {
