@@ -83,6 +83,7 @@ class EasyRichTextPattern {
       this.suffixInlineSpan});
 
   EasyRichTextPattern copyWith({
+    key,
     targetString,
     stringBeforeTarget,
     stringAfterTarget,
@@ -101,6 +102,7 @@ class EasyRichTextPattern {
     suffixInlineSpan,
   }) {
     return EasyRichTextPattern(
+      key: key,
       targetString: targetString ?? this.targetString,
       stringBeforeTarget: stringBeforeTarget ?? this.stringBeforeTarget,
       stringAfterTarget: stringAfterTarget ?? this.stringAfterTarget,
