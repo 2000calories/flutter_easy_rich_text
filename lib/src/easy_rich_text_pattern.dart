@@ -64,8 +64,7 @@ class EasyRichTextPattern {
   final InlineSpan? suffixInlineSpan;
 
   EasyRichTextPattern(
-      {Key? key,
-      required this.targetString,
+      {required this.targetString,
       this.stringBeforeTarget = '',
       this.stringAfterTarget = '',
       this.matchWordBoundaries = true,
