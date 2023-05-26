@@ -355,29 +355,3 @@ EasyRichText(
   ],
 ),
 ```
-
-### Known issues
-
-#### Conflict when one target string is included in another target string
-
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/known%20issue%201.png)
-
-```dart
-EasyRichText(
-  "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
-  patternList: [
-    EasyRichTextPattern(
-      targetString: 'I want whole sentence blue',
-      style: TextStyle(fontWeight: FontWeight.bold),
-    ),
-    EasyRichTextPattern(
-      targetString: 'blue',
-      style: TextStyle(color: Colors.blue),
-    ),
-    EasyRichTextPattern(
-      targetString: 'I want whole sentence bold',
-      style: TextStyle(fontWeight: FontWeight.bold),
-    ),
-  ],
-),
-```

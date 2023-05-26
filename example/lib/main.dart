@@ -310,25 +310,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
 
-                //know issue
-                EasyRichText(
-                  "This is a EasyRichText example. I want whole sentence blue. I want whole sentence bold.",
-                  patternList: [
-                    EasyRichTextPattern(
-                      targetString: 'blue',
-                      style: const TextStyle(color: Colors.blue),
-                    ),
-                    EasyRichTextPattern(
-                      targetString: 'I want whole sentence blue',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    EasyRichTextPattern(
-                      targetString: 'I want whole sentence bold',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-
                 //Chinese Character
                 EasyRichText(
                   "I want 世界你好 here. I want not 世界你好 font here.",
