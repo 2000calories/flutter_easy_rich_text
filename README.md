@@ -22,7 +22,7 @@ If you find this package useful, I would appreciate it if you can give me a star
 
 ```yaml
 dependencies:
-  easy_rich_text: '^1.2.0'
+  easy_rich_text: '^2.0.0'
 ```
 
 ### Examples:

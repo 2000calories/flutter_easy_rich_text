@@ -121,3 +121,7 @@
 ## [1.2.0] - 2023-02-13
 
 - Add prefixInlineSpan and suffixInlineSpan
+
+## [2.0.0] - 2023-05-26
+
+- nested EasyRichTextPattern
