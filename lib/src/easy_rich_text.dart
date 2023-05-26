@@ -400,6 +400,152 @@ class EasyRichText extends StatelessWidget {
     return strList;
   }
 
+  List<InlineSpan> getTextSpanList({
+    required BuildContext? context,
+    required List<String>? strList,
+    required List<EasyRichTextPattern>? finalTempPatternList2,
+    TextStyle? subTextStyle,
+  }) {
+    List<InlineSpan> textSpanList = [];
+    // nested pattern check
+    Map<int, List<EasyRichTextPattern>> patternSubset = {};
+    finalTempPatternList2!.asMap().forEach((index, pattern) {
+      finalTempPatternList2.asMap().forEach((temIndex, temPattern) {
+        if (index != temIndex) {
+          RegExp patternExp = RegExp(
+            pattern.targetString,
+            caseSensitive: caseSensitive,
+            unicode: unicode,
+            multiLine: multiLine,
+            dotAll: dotAll,
+          );
+          bool hasMatch = patternExp.hasMatch(temPattern.targetString);
+          if (hasMatch) {
+            patternSubset.update(
+              temIndex,
+              (value) {
+                value.add(pattern);
+                return value;
+              },
+              ifAbsent: () => [pattern],
+            );
+          }
+        }
+      });
+    });
+
+    strList!.forEach((str) {
+      var inlineSpan;
+      int targetIndex = -1;
+      RegExpMatch? match;
+      if (finalTempPatternList2.isNotEmpty) {
+        finalTempPatternList2.asMap().forEach((index, pattern) {
+          String targetString = pattern.targetString;
+
+          //\$, match end
+          RegExp targetStringExp = RegExp(
+            '^$targetString\$',
+            caseSensitive: caseSensitive,
+            unicode: unicode,
+            multiLine: multiLine,
+            dotAll: dotAll,
+          );
+
+          RegExpMatch? tempMatch = targetStringExp.firstMatch(str);
+          if (tempMatch is RegExpMatch) {
+            targetIndex = index;
+            match = tempMatch;
+          }
+        });
+      }
+
+      ///If str is targetString
+      if (targetIndex > -1) {
+        var pattern = finalTempPatternList2[targetIndex];
+        // nested pattern check
+        // ABCDE, B,C => A,B,C,DE
+        if (patternSubset[targetIndex] != null) {
+          List<String> subStrList =
+              processStrList(patternSubset[targetIndex]!, str);
+          List<InlineSpan> subTextSpanList = getTextSpanList(
+            context: context,
+            strList: subStrList,
+            finalTempPatternList2: patternSubset[targetIndex]!,
+            subTextStyle: pattern.style,
+          );
+          textSpanList.addAll(subTextSpanList);
+        } else {
+          //if str is url
+          var urlType = pattern.urlType;
+
+          if (null != pattern.matchBuilder && match is RegExpMatch) {
+            inlineSpan = pattern.matchBuilder!(context!, match);
+          } else if (urlType != null) {
+            inlineSpan = TextSpan(
+              text: str,
+              recognizer: tapGestureRecognizerForUrls(str, urlType),
+              style: pattern.style == null
+                  ? DefaultTextStyle.of(context!).style
+                  : pattern.style,
+            );
+          } else if (pattern.superScript && !selectable) {
+            //change the target string to superscript
+            inlineSpan = WidgetSpan(
+              child: Transform.translate(
+                offset: const Offset(0, -5),
+                child: Text(
+                  str,
+                  textScaleFactor: 0.7,
+                  style: pattern.style == null
+                      ? DefaultTextStyle.of(context!).style
+                      : pattern.style,
+                ),
+              ),
+            );
+          } else if (pattern.subScript && !selectable) {
+            //change the target string to subscript
+            inlineSpan = WidgetSpan(
+              child: Transform.translate(
+                offset: const Offset(0, 1),
+                child: Text(
+                  str,
+                  textScaleFactor: 0.7,
+                  style: pattern.style == null
+                      ? DefaultTextStyle.of(context!).style
+                      : pattern.style,
+                ),
+              ),
+            );
+          } else {
+            inlineSpan = TextSpan(
+              text: str,
+              recognizer: pattern.recognizer,
+              style: pattern.style == null
+                  ? DefaultTextStyle.of(context!).style
+                  : pattern.style,
+            );
+          }
+
+          ///add prefix/suffix InlineSpan
+          if (null != pattern.prefixInlineSpan) {
+            textSpanList.add(pattern.prefixInlineSpan!);
+          }
+          textSpanList.add(inlineSpan);
+          if (null != pattern.suffixInlineSpan) {
+            textSpanList.add(pattern.suffixInlineSpan!);
+          }
+        }
+      } else {
+        inlineSpan = TextSpan(
+          text: str,
+          style: subTextStyle,
+        );
+        textSpanList.add(inlineSpan);
+      }
+    });
+    return textSpanList;
+  }
+
   String replaceSpecialCharacters(str) {
     String tempStr = str;
     //\[]()^*+?.$-{}|!
@@ -418,6 +564,7 @@ class EasyRichText extends StatelessWidget {
     List<EasyRichTextPattern> finalTempPatternList = [];
     List<EasyRichTextPattern> finalTempPatternList2 = [];
     List<String> strList = [];
+    // ignore: unused_local_variable
     bool unicode = true;
 
     if (tempPatternList.isEmpty) {
@@ -450,101 +597,11 @@ class EasyRichText extends StatelessWidget {
       strList = processStrList(finalTempPatternList2, temText);
     }
 
-    List<InlineSpan> textSpanList = [];
-    strList.forEach((str) {
-      var inlineSpan;
-      int targetIndex = -1;
-      RegExpMatch? match;
-      if (tempPatternList.isNotEmpty) {
-        finalTempPatternList2.asMap().forEach((index, pattern) {
-          String targetString = pattern.targetString;
-
-          //\$, match end
-          RegExp targetStringExp = RegExp(
-            '^$targetString\$',
-            caseSensitive: caseSensitive,
-            unicode: unicode,
-            multiLine: multiLine,
-            dotAll: dotAll,
-          );
-
-          RegExpMatch? tempMatch = targetStringExp.firstMatch(str);
-          if (tempMatch is RegExpMatch) {
-            targetIndex = index;
-            match = tempMatch;
-          }
-        });
-      }
-
-      ///If str is targetString
-      if (targetIndex > -1) {
-        //if str is url
-        var pattern = finalTempPatternList2[targetIndex];
-        var urlType = pattern.urlType;
-
-        if (null != pattern.matchBuilder && match is RegExpMatch) {
-          inlineSpan = pattern.matchBuilder!(context, match);
-        } else if (urlType != null) {
-          inlineSpan = TextSpan(
-            text: str,
-            recognizer: tapGestureRecognizerForUrls(str, urlType),
-            style: pattern.style == null
-                ? DefaultTextStyle.of(context).style
-                : pattern.style,
-          );
-        } else if (pattern.superScript && !selectable) {
-          //change the target string to superscript
-          inlineSpan = WidgetSpan(
-            child: Transform.translate(
-              offset: const Offset(0, -5),
-              child: Text(
-                str,
-                textScaleFactor: 0.7,
-                style: pattern.style == null
-                    ? DefaultTextStyle.of(context).style
-                    : pattern.style,
-              ),
-            ),
-          );
-        } else if (pattern.subScript && !selectable) {
-          //change the target string to subscript
-          inlineSpan = WidgetSpan(
-            child: Transform.translate(
-              offset: const Offset(0, 1),
-              child: Text(
-                str,
-                textScaleFactor: 0.7,
-                style: pattern.style == null
-                    ? DefaultTextStyle.of(context).style
-                    : pattern.style,
-              ),
-            ),
-          );
-        } else {
-          inlineSpan = TextSpan(
-            text: str,
-            recognizer: pattern.recognizer,
-            style: pattern.style == null
-                ? DefaultTextStyle.of(context).style
-                : pattern.style,
-          );
-        }
-
-        ///add prefix/suffix InlineSpan
-        if (null != pattern.prefixInlineSpan) {
-          textSpanList.add(pattern.prefixInlineSpan!);
-        }
-        textSpanList.add(inlineSpan);
-        if (null != pattern.suffixInlineSpan) {
-          textSpanList.add(pattern.suffixInlineSpan!);
-        }
-      } else {
-        inlineSpan = TextSpan(
-          text: str,
-        );
-        textSpanList.add(inlineSpan);
-      }
-    });
+    List<InlineSpan> textSpanList = getTextSpanList(
+      context: context,
+      strList: strList,
+      finalTempPatternList2: finalTempPatternList2,
+    );
 
     if (selectable) {
       return SelectableText.rich(
