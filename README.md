@@ -327,7 +327,6 @@ EasyRichText(
     EasyRichTextPattern(
       targetString: '(\\*)(.*?)(\\*)',
       matchBuilder: (BuildContext context, RegExpMatch? match) {
-        // print(match[0]);
         return TextSpan(
           text: match?[0]?.replaceAll('*', ''),
           style: const TextStyle(fontWeight: FontWeight.bold),
