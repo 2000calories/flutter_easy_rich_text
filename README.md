@@ -326,10 +326,10 @@ EasyRichText(
     ///bold font
     EasyRichTextPattern(
       targetString: '(\\*)(.*?)(\\*)',
-      matchBuilder: (BuildContext context, RegExpMatch match) {
+      matchBuilder: (BuildContext context, RegExpMatch? match) {
         return TextSpan(
-          text: match[0].replaceAll('*', ''),
-          style: TextStyle(fontWeight: FontWeight.bold),
+          text: match?[0]?.replaceAll('*', ''),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         );
       },
     ),
