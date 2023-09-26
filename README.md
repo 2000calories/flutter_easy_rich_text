@@ -14,7 +14,7 @@ By default `matchWordBoundaries:true` is set to match the whole word. If you wan
 
 GestureRecognizer and url_launcher are integrated.
 
-If you find this package useful, I would appreciate it if you can give me a star on [Github](https://github.com/2000calories/flutter_easy_rich_text) or a like on [pub.dev](https://pub.dev/packages/easy_rich_text)
+If you find this package useful, I would appreciate it if you can give me a star on [Github](https://github.com/2000calories/flutter_easy_rich_text).
 
 ## Getting Started
 
