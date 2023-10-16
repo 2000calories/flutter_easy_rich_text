@@ -44,7 +44,7 @@ dependencies:
 
 #### Simple Example:
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/simple.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/simple.png)
 
 ```dart
 EasyRichText(
@@ -68,7 +68,7 @@ EasyRichText(
 
 #### Trademark Example
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/trademark.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/trademark.png)
 
 ```dart
 EasyRichText(
@@ -87,7 +87,7 @@ EasyRichText(
 
 #### Default Style:
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/default%20style.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/default%20style.png)
 
 ```dart
 EasyRichText(
@@ -108,7 +108,7 @@ EasyRichText(
 
 #### Conditional Match
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/conditional_match.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/conditional_match.png)
 
 ```dart
 EasyRichText(
@@ -126,7 +126,7 @@ EasyRichText(
 
 #### Match Option
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/match_option.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/match_option.png)
 
 ##### matchOption can be a string or a list. default is 'all'.
 
@@ -152,7 +152,7 @@ EasyRichText(
 
 #### Superscript and Subscript.
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/superscript_subscript.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/superscript_subscript.png)
 
 ```dart
 EasyRichText(
@@ -168,7 +168,7 @@ EasyRichText(
 
 #### Case Sensitivity
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/case%20sensitivity.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/case%20sensitivity.png)
 
 ```dart
 EasyRichText(
@@ -186,7 +186,7 @@ EasyRichText(
 
 #### Selectable Text
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/selectable.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/selectable.png)
 
 ```dart
 EasyRichText(
@@ -197,7 +197,7 @@ EasyRichText(
 
 #### Regular Expression
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/regular_expression.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/regular_expression.png)
 
 ```dart
 EasyRichText(
@@ -217,7 +217,7 @@ Integrated with url_launcher. Web url, email url, and telephone url are supporte
 Set urlType : 'web', 'email', or 'tel'.
 EasyRichText provides regular expression formula to match common urls.
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/urls.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/urls.png)
 
 ```dart
 EasyRichText(
@@ -279,7 +279,7 @@ EasyRichText(
 
 #### All RichText Properties
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/rich%20text%20overflow.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/rich%20text%20overflow.png)
 
 ```dart
 EasyRichText(
@@ -292,7 +292,7 @@ EasyRichText(
 
 #### Special Characters
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/special_characters.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/special_characters.png)
 
 ```dart
 //if the targetString contains the following special characters \[]()^*+?
@@ -316,7 +316,7 @@ EasyRichText(
 
 #### WhatsApp Like Text Formatter
 
-![alt text](https://github.com/2000calories/flutter_easy_rich_text/blob/master/screen_shots/WhatsApp_like_text_formatter.png)
+![alt text](https://raw.githubusercontent.com/2000calories/flutter_easy_rich_text/master/screen_shots/WhatsApp_like_text_formatter.png)
 
 ```dart
 ///WhatsApp like text formatter
