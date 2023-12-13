@@ -125,3 +125,7 @@
 ## [2.0.0] - 2023-05-26
 
 - nested EasyRichTextPattern
+
+## [2.1.0] - 2023-12-13
+
+- migrate textScaleFactor to TextScaler

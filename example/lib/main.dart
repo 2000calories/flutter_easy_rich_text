@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 //superscript and subscript
                 EasyRichText(
-                  "I want superscript font here. I want subscript here",
+                  "I want superscript font here. I wantp subscript here",
                   patternList: [
                     EasyRichTextPattern(
                         targetString: 'superscript', superScript: true),

@@ -192,9 +192,9 @@ class EasyRichText extends StatelessWidget {
       this.selectionColor});
 
   _launchURL(String str) async {
-    String url = str;
-    if (await canLaunch(url)) {
-      await launch(url);
+    Uri url = Uri.parse(str);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     }
   }
 
@@ -495,7 +495,8 @@ class EasyRichText extends StatelessWidget {
                 offset: const Offset(0, -5),
                 child: Text(
                   str,
-                  textScaleFactor: 0.7,
+                  textScaler: TextScaler.linear(0.7),
+                  // textScaleFactor: 0.7,
                   style: pattern.style == null
                       ? DefaultTextStyle.of(context!).style
                       : pattern.style,
@@ -506,10 +507,11 @@ class EasyRichText extends StatelessWidget {
             //change the target string to subscript
             inlineSpan = WidgetSpan(
               child: Transform.translate(
-                offset: const Offset(0, 1),
+                offset: const Offset(0, 2),
                 child: Text(
                   str,
-                  textScaleFactor: 0.7,
+                  // textScaleFactor: 0.7,
+                  textScaler: TextScaler.linear(0.7),
                   style: pattern.style == null
                       ? DefaultTextStyle.of(context!).style
                       : pattern.style,
@@ -616,7 +618,8 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        textScaleFactor: textScaleFactor,
+        // textScaleFactor: textScaleFactor,
+        textScaler: TextScaler.linear(textScaleFactor),
         textWidthBasis: textWidthBasis,
         selectionControls: selectionControls,
         textHeightBehavior: textHeightBehavior,
@@ -649,7 +652,8 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        textScaleFactor: textScaleFactor,
+        // textScaleFactor: textScaleFactor,
+        textScaler: TextScaler.linear(textScaleFactor),
         textWidthBasis: textWidthBasis,
         selectionColor: selectionColor,
       );
