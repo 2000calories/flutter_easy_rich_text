@@ -1,8 +1,11 @@
-import 'package:easy_rich_text/src/easy_rich_text_pattern.dart';
-import 'package:easy_rich_text/src/patterns.dart';
 import 'package:flutter/widgets.dart';
 
-abstract class EasyRichTextPatterns {
+import 'easy_rich_text_pattern.dart';
+import 'patterns.dart';
+
+class EasyRichTextPatterns {
+  EasyRichTextPatterns._();
+
   static final bold = EasyRichTextPattern(
     targetString: EasyRegexPattern.boldPattern,
     matchWordBoundaries: false,
