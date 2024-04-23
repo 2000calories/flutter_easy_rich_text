@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -605,13 +605,16 @@ class EasyRichText extends StatelessWidget {
       finalTempPatternList2: finalTempPatternList2,
     );
 
+    return buildTextWidget(context, textSpanList);
+  }
+
+  Widget buildTextWidget(BuildContext context, List<InlineSpan> textSpans) {
     if (selectable) {
       return SelectableText.rich(
         TextSpan(
-            style: defaultStyle == null
-                ? DefaultTextStyle.of(context).style
-                : defaultStyle,
-            children: textSpanList),
+          style: defaultStyle ?? DefaultTextStyle.of(context).style,
+          children: textSpans,
+        ),
         scrollPhysics: scrollPhysics,
         contextMenuBuilder: contextMenuBuilder,
         maxLines: maxLines,
@@ -641,10 +644,9 @@ class EasyRichText extends StatelessWidget {
     } else {
       return Text.rich(
         TextSpan(
-            style: defaultStyle == null
-                ? DefaultTextStyle.of(context).style
-                : defaultStyle,
-            children: textSpanList),
+          style: defaultStyle ?? DefaultTextStyle.of(context).style,
+          children: textSpans,
+        ),
         locale: locale,
         maxLines: maxLines,
         overflow: overflow,
