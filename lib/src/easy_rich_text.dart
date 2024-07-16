@@ -48,7 +48,16 @@ class EasyRichText extends StatelessWidget {
   ///
   /// For example, if the text scale factor is 1.5, text will be 50% larger than
   /// the specified font size.
-  final double textScaleFactor;
+  @Deprecated(
+    'textScaleFactor is deprecated, use textScaler instead. '
+    'This feature was deprecated in accordance with the deprecation of textScaleFactor after flutter  v3.12.0-2.0.pre',
+  )
+  final double? textScaleFactor;
+
+  /// The font scaling strategy to use for laying out textual contents.
+  ///
+  /// If null, defaults to MediaQuery.of(context).textScaler
+  final TextScaler? textScaler;
 
   /// An optional maximum number of lines for the text to span, wrapping if necessary.
   /// If the text exceeds the given number of lines, it will be truncated according
@@ -153,43 +162,46 @@ class EasyRichText extends StatelessWidget {
   /// (semi-transparent grey).
   final Color? selectionColor;
 
-  EasyRichText(this.text,
-      {Key? key,
-      this.patternList,
-      this.defaultStyle,
-      this.textAlign = TextAlign.start,
-      this.textDirection,
-      this.softWrap = true,
-      this.overflow = TextOverflow.clip,
-      this.textScaleFactor = 1.0,
-      this.maxLines,
-      this.locale,
-      this.strutStyle,
-      this.textWidthBasis = TextWidthBasis.parent,
-      this.caseSensitive = true,
-      this.selectable = false,
-      this.contextMenuBuilder,
-      this.selectionControls,
-      this.scrollPhysics,
-      this.textHeightBehavior,
-      this.enableInteractiveSelection = true,
-      this.autofocus = false,
-      this.cursorRadius,
-      this.dragStartBehavior = DragStartBehavior.start,
-      this.onSelectionChanged,
-      this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-      this.selectionWidthStyle = ui.BoxWidthStyle.tight,
-      this.minLines,
-      this.cursorHeight,
-      this.cursorWidth = 2.0,
-      this.cursorColor,
-      this.focusNode,
-      this.semanticsLabel,
-      this.showCursor = false,
-      this.multiLine = false,
-      this.dotAll = false,
-      this.unicode = false,
-      this.selectionColor});
+  EasyRichText(
+    this.text, {
+    Key? key,
+    this.patternList,
+    this.defaultStyle,
+    this.textAlign = TextAlign.start,
+    this.textDirection,
+    this.softWrap = true,
+    this.overflow = TextOverflow.clip,
+    this.textScaleFactor,
+    this.textScaler,
+    this.maxLines,
+    this.locale,
+    this.strutStyle,
+    this.textWidthBasis = TextWidthBasis.parent,
+    this.caseSensitive = true,
+    this.selectable = false,
+    this.contextMenuBuilder,
+    this.selectionControls,
+    this.scrollPhysics,
+    this.textHeightBehavior,
+    this.enableInteractiveSelection = true,
+    this.autofocus = false,
+    this.cursorRadius,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.onSelectionChanged,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.minLines,
+    this.cursorHeight,
+    this.cursorWidth = 2.0,
+    this.cursorColor,
+    this.focusNode,
+    this.semanticsLabel,
+    this.showCursor = false,
+    this.multiLine = false,
+    this.dotAll = false,
+    this.unicode = false,
+    this.selectionColor,
+  });
 
   _launchURL(String str) async {
     Uri url = Uri.parse(str);
@@ -496,7 +508,6 @@ class EasyRichText extends StatelessWidget {
                 child: Text(
                   str,
                   textScaler: TextScaler.linear(0.7),
-                  // textScaleFactor: 0.7,
                   style: pattern.style == null
                       ? DefaultTextStyle.of(context!).style
                       : pattern.style,
@@ -510,7 +521,6 @@ class EasyRichText extends StatelessWidget {
                 offset: const Offset(0, 2),
                 child: Text(
                   str,
-                  // textScaleFactor: 0.7,
                   textScaler: TextScaler.linear(0.7),
                   style: pattern.style == null
                       ? DefaultTextStyle.of(context!).style
@@ -621,8 +631,9 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        // textScaleFactor: textScaleFactor,
-        textScaler: TextScaler.linear(textScaleFactor),
+        textScaler: textScaler ??
+            //ignore: deprecated_member_use_from_same_package
+            (textScaleFactor != null ? TextScaler.linear(textScaleFactor!) : MediaQuery.of(context).textScaler),
         textWidthBasis: textWidthBasis,
         selectionControls: selectionControls,
         textHeightBehavior: textHeightBehavior,
@@ -654,8 +665,9 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        // textScaleFactor: textScaleFactor,
-        textScaler: TextScaler.linear(textScaleFactor),
+        textScaler: textScaler ??
+            //ignore: deprecated_member_use_from_same_package
+            (textScaleFactor != null ? TextScaler.linear(textScaleFactor!) : MediaQuery.of(context).textScaler),
         textWidthBasis: textWidthBasis,
         selectionColor: selectionColor,
       );
