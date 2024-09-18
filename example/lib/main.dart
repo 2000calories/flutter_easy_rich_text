@@ -48,31 +48,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 //trademark example
                 EasyRichText(
                   "ProductTM is a superscript trademark symbol. This TM is not a trademark.",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'TM',
                       superScript: true,
                       stringBeforeTarget: 'Product',
                       matchWordBoundaries: false,
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
                 //simple example
                 EasyRichText(
                   "I want blue font. I want bold font. I want italic font.",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'italic',
-                      style: const TextStyle(fontStyle: FontStyle.italic),
+                      style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     EasyRichTextPattern(
                       targetString: 'blue',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                     EasyRichTextPattern(
                       targetString: 'bold',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -80,10 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///list of targetString have same text decoration.
                 EasyRichText(
                   "bold1 TEST bold2 TEST bold3",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: ['bold1', 'bold2', 'bold3'],
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -92,21 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 EasyRichText(
                   "This is a EasyRichText example with default grey font. I want blue font here.",
                   defaultStyle: const TextStyle(color: Colors.grey),
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'blue',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                     EasyRichTextPattern(
                       targetString: 'bold',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
                 //superscript and subscript
                 EasyRichText(
                   "I want superscript font here. I wantp subscript here",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                         targetString: 'superscript', superScript: true),
                     EasyRichTextPattern(
@@ -116,12 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 //conditional match
                 EasyRichText(
                   "I want blue color here. I want no blue font here. I want blue invalid here.",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'blue',
                       stringBeforeTarget: 'want',
                       stringAfterTarget: "color",
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -131,12 +131,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 //For example, [0, 1, 'last'] will match the first, second, and last one.
                 EasyRichText(
                   "blue 1, blue 2, blue 3, blue 4, blue 5",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'blue',
                       //matchOption: 'all'
                       matchOption: [0, 1, 'last'],
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -152,10 +152,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 //regular expression
                 EasyRichText(
                   "Regular Expression. I want blue bluea blue1 but not blueA",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'bl[a-z0-9]*',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -164,10 +164,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 EasyRichText(
                   "Case-Insensitive String Matching. I want both Blue and blue.",
                   caseSensitive: false,
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'Blue',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -176,37 +176,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 EasyRichText(
                   "This paragraph is selectable...",
                   selectable: true,
+                  contextMenuBuilder: (context, editableTextState) {
+                    return AdaptiveTextSelectionToolbar.buttonItems(
+                      anchors: editableTextState.contextMenuAnchors,
+                      buttonItems: <ContextMenuButtonItem>[
+                        ContextMenuButtonItem(
+                          onPressed: () {
+                            editableTextState
+                                .copySelection(SelectionChangedCause.toolbar);
+                          },
+                          type: ContextMenuButtonType.copy,
+                        ),
+                        ContextMenuButtonItem(
+                          onPressed: () {
+                            editableTextState
+                                .selectAll(SelectionChangedCause.toolbar);
+                          },
+                          type: ContextMenuButtonType.selectAll,
+                        ),
+                      ],
+                    );
+                  },
                 ),
 
                 ///urls, will disable superscript and subscript
                 EasyRichText(
                   "Here is a website https://pub.dev/packages/easy_rich_text. Here is a email address test@example.com. Here is a telephone number +852 12345678.",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'https://pub.dev/packages/easy_rich_text',
                       urlType: 'web',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.underline,
                       ),
                     ),
                     EasyRichTextPattern(
                       targetString: EasyRegexPattern.emailPattern,
                       urlType: 'email',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.underline,
                       ),
                     ),
                     EasyRichTextPattern(
                       targetString: EasyRegexPattern.webPattern,
                       urlType: 'web',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.underline,
                       ),
                     ),
                     EasyRichTextPattern(
                       targetString: EasyRegexPattern.telPattern,
                       urlType: 'tel',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -235,17 +256,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 //if the targetString contains the following special characters \[]()^*+?
                 EasyRichText(
                   "Received 88+ messages. Received 99+ messages ()",
-                  patternList: [
+                  patternList: const [
                     //set hasSpecialCharacters to true
                     EasyRichTextPattern(
                       targetString: '99+',
                       hasSpecialCharacters: true,
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                     //or if you are familiar with regular expressions, then use \\ to skip it
                     EasyRichTextPattern(
                       targetString: '88\\+',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -253,7 +274,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///WhatsApp like text formatter
                 EasyRichText(
                   "what are *you* doing *and* hi ~hey~. _italic_ ",
-                  defaultStyle: const TextStyle(color: Colors.white),
                   patternList: [
                     ///bold font
                     EasyRichTextPattern(
@@ -297,13 +317,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///add icon before/after targetString
                 EasyRichText(
                   "Please contact us at +123456789",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: EasyRegexPattern.telPattern,
-                      prefixInlineSpan: const WidgetSpan(
+                      prefixInlineSpan: WidgetSpan(
                         child: Icon(Icons.local_phone),
                       ),
-                      suffixInlineSpan: const WidgetSpan(
+                      suffixInlineSpan: WidgetSpan(
                         child: Icon(Icons.local_phone),
                       ),
                     )
@@ -313,11 +333,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 //Chinese Character
                 EasyRichText(
                   "I want 世界你好 here. I want not 世界你好 font here.",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: '世界',
                       stringBeforeTarget: 'want ',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ],
                 ),
@@ -325,10 +345,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 //Arabic Character
                 EasyRichText(
                   "الحياة أكثر من مجرد الحاضر",
-                  patternList: [
+                  patternList: const [
                     EasyRichTextPattern(
                       targetString: 'من',
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     )
                   ],
                   defaultStyle: const TextStyle(color: Colors.red),

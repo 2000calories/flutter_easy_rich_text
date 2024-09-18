@@ -1,10 +1,10 @@
 name: easy_rich_text
 description: The EasyRichText widget provides an easy way to use RichText. You do not have to split the string manually.
-version: 2.1.0
+version: 2.2.0
 homepage: https://github.com/2000calories/flutter_easy_rich_text
 
 environment:
-  sdk: '>=2.13.0 <3.0.0'
+  sdk: '>=2.13.0 <4.0.0'
 
 dependencies:
   flutter:

@@ -1,4 +1,5 @@
 ## [0.0.1] - 2019-11-18.
+- draft
 
 ## [0.0.2] - 2019-11-18.
 
@@ -129,3 +130,7 @@
 ## [2.1.0] - 2023-12-13
 
 - migrate textScaleFactor to TextScaler
+
+## [2.2.0] - 2024-09-18
+
+- Make EasyRichTextPattern constructor const

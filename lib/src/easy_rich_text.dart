@@ -44,16 +44,6 @@ class EasyRichText extends StatelessWidget {
   /// How visual overflow should be handled.
   final TextOverflow overflow;
 
-  /// The number of font pixels for each logical pixel.
-  ///
-  /// For example, if the text scale factor is 1.5, text will be 50% larger than
-  /// the specified font size.
-  @Deprecated(
-    'textScaleFactor is deprecated, use textScaler instead. '
-    'This feature was deprecated in accordance with the deprecation of textScaleFactor after flutter  v3.12.0-2.0.pre',
-  )
-  final double? textScaleFactor;
-
   /// The font scaling strategy to use for laying out textual contents.
   ///
   /// If null, defaults to MediaQuery.of(context).textScaler
@@ -162,59 +152,7 @@ class EasyRichText extends StatelessWidget {
   /// (semi-transparent grey).
   final Color? selectionColor;
 
-  EasyRichText(
-    this.text, {
-    Key? key,
-    this.patternList,
-    this.defaultStyle,
-    this.textAlign = TextAlign.start,
-    this.textDirection,
-    this.softWrap = true,
-    this.overflow = TextOverflow.clip,
-    this.textScaleFactor,
-    this.textScaler,
-    this.maxLines,
-    this.locale,
-    this.strutStyle,
-    this.textWidthBasis = TextWidthBasis.parent,
-    this.caseSensitive = true,
-    this.selectable = false,
-    this.contextMenuBuilder,
-    this.selectionControls,
-    this.scrollPhysics,
-    this.textHeightBehavior,
-    this.enableInteractiveSelection = true,
-    this.autofocus = false,
-    this.cursorRadius,
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.onSelectionChanged,
-    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
-    this.minLines,
-    this.cursorHeight,
-    this.cursorWidth = 2.0,
-    this.cursorColor,
-    this.focusNode,
-    this.semanticsLabel,
-    this.showCursor = false,
-    this.multiLine = false,
-    this.dotAll = false,
-    this.unicode = false,
-    this.selectionColor,
-  });
-
-  _launchURL(String str) async {
-    Uri url = Uri.parse(str);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    }
-  }
-
-  List<String> specialCharacters() {
-    return '\\~[]{}#%^*+=_|<>£€•.,!’()?-\$'.split('');
-  }
-
-  TapGestureRecognizer? tapGestureRecognizerForUrls(
+  static TapGestureRecognizer? tapGestureRecognizerForUrls(
       String str, String urlType) {
     TapGestureRecognizer? tapGestureRecognizer;
     switch (urlType) {
@@ -245,6 +183,87 @@ class EasyRichText extends StatelessWidget {
     }
     return tapGestureRecognizer;
   }
+
+  EasyRichText(this.text,
+      {Key? key,
+      this.patternList,
+      this.defaultStyle,
+      this.textAlign = TextAlign.start,
+      this.textDirection,
+      this.softWrap = true,
+      this.overflow = TextOverflow.clip,
+      this.maxLines,
+      this.locale,
+      this.strutStyle,
+      this.textWidthBasis = TextWidthBasis.parent,
+      this.caseSensitive = true,
+      this.selectable = false,
+      this.contextMenuBuilder,
+      this.selectionControls,
+      this.scrollPhysics,
+      this.textHeightBehavior,
+      this.enableInteractiveSelection = true,
+      this.autofocus = false,
+      this.cursorRadius,
+      this.dragStartBehavior = DragStartBehavior.start,
+      this.onSelectionChanged,
+      this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+      this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+      this.minLines,
+      this.cursorHeight,
+      this.cursorWidth = 2.0,
+      this.cursorColor,
+      this.focusNode,
+      this.semanticsLabel,
+      this.showCursor = false,
+      this.multiLine = false,
+      this.dotAll = false,
+      this.unicode = false,
+      this.selectionColor,
+      this.textScaler});
+
+  static _launchURL(String str) async {
+    Uri url = Uri.parse(str);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    }
+  }
+
+  List<String> specialCharacters() {
+    return '\\~[]{}#%^*+=_|<>£€•.,!’()?-\$'.split('');
+  }
+
+  // TapGestureRecognizer? tapGestureRecognizerForUrls(
+  //     String str, String urlType) {
+  //   TapGestureRecognizer? tapGestureRecognizer;
+  //   switch (urlType) {
+  //     case 'web':
+  //       if (str.substring(0, 4) != "http") {
+  //         str = "https://$str";
+  //       }
+  //       tapGestureRecognizer = TapGestureRecognizer()
+  //         ..onTap = () {
+  //           _launchURL(str);
+  //         };
+  //       break;
+  //     case 'email':
+  //       tapGestureRecognizer = TapGestureRecognizer()
+  //         ..onTap = () {
+  //           _launchURL("mailto:$str");
+  //         };
+  //       break;
+  //     case 'tel':
+  //       tapGestureRecognizer = TapGestureRecognizer()
+  //         ..onTap = () {
+  //           _launchURL("tel:${str.replaceAll(' ', '')}");
+  //           // In order to recognize the number, iOS requires no empty spaces.
+  //         };
+  //       break;
+  //     default:
+  //       TapGestureRecognizer();
+  //   }
+  //   return tapGestureRecognizer;
+  // }
 
   List<String> processStrList(
       List<EasyRichTextPattern> patternList, String temText) {
@@ -631,9 +650,7 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        textScaler: textScaler ??
-            //ignore: deprecated_member_use_from_same_package
-            (textScaleFactor != null ? TextScaler.linear(textScaleFactor!) : MediaQuery.of(context).textScaler),
+        textScaler: textScaler ?? MediaQuery.of(context).textScaler,
         textWidthBasis: textWidthBasis,
         selectionControls: selectionControls,
         textHeightBehavior: textHeightBehavior,
@@ -665,9 +682,7 @@ class EasyRichText extends StatelessWidget {
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
-        textScaler: textScaler ??
-            //ignore: deprecated_member_use_from_same_package
-            (textScaleFactor != null ? TextScaler.linear(textScaleFactor!) : MediaQuery.of(context).textScaler),
+        textScaler: textScaler ?? MediaQuery.of(context).textScaler,
         textWidthBasis: textWidthBasis,
         selectionColor: selectionColor,
       );

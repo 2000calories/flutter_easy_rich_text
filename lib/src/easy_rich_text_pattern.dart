@@ -63,7 +63,7 @@ class EasyRichTextPattern {
   ///InlineSpan widget after targetStriing
   final InlineSpan? suffixInlineSpan;
 
-  EasyRichTextPattern(
+  const EasyRichTextPattern(
       {required this.targetString,
       this.stringBeforeTarget = '',
       this.stringAfterTarget = '',
